@@ -1,0 +1,777 @@
+diff -u ruby-1.0-971225/array.c ruby-1.0-971225-patched/array.c
+--- ruby-1.0-971225/array.c	1997-10-22 05:52:12.000000000 +0200
++++ ruby-1.0-971225-patched/array.c	2012-12-20 11:43:49.992978550 +0100
+@@ -11,6 +11,7 @@
+ ************************************************/
+ 
+ #include "ruby.h"
++#include <string.h>
+ 
+ VALUE cArray;
+ 
+@@ -82,12 +83,10 @@
+     return ary_new2(ARY_DEFAULT_SIZE);
+ }
+ 
+-#include <varargs.h>
++#include <stdarg.h>
+ 
+ VALUE
+-ary_new3(n, va_alist)
+-    int n;
+-    va_dcl
++ary_new3(int n, ...)
+ {
+     va_list ar;
+     struct RArray* ary;
+@@ -98,7 +97,7 @@
+     }
+     ary = (struct RArray*)ary_new2(n<ARY_DEFAULT_SIZE?ARY_DEFAULT_SIZE:n);
+ 
+-    va_start(ar);
++    va_start(ar, n);
+     for (i=0; i<n; i++) {
+ 	ary->ptr[i] = va_arg(ar, VALUE);
+     }
+diff -u ruby-1.0-971225/bignum.c ruby-1.0-971225-patched/bignum.c
+--- ruby-1.0-971225/bignum.c	1997-10-21 06:31:05.000000000 +0200
++++ ruby-1.0-971225-patched/bignum.c	2012-12-20 11:46:29.042005628 +0100
+@@ -11,6 +11,7 @@
+ #include "ruby.h"
+ #include <ctype.h>
+ #include <math.h>
++#include <string.h>
+ 
+ extern VALUE cInteger;
+ VALUE cBignum;
+diff -u ruby-1.0-971225/class.c ruby-1.0-971225-patched/class.c
+--- ruby-1.0-971225/class.c	1997-09-03 10:32:12.000000000 +0200
++++ ruby-1.0-971225-patched/class.c	2012-12-20 11:46:02.321948745 +0100
+@@ -13,6 +13,8 @@
+ #include "ruby.h"
+ #include "node.h"
+ #include "st.h"
++#include <string.h>
++#include <stdio.h>
+ 
+ struct st_table *new_idhash();
+ extern st_table *rb_class_tbl;
+@@ -349,22 +351,18 @@
+     }
+ }
+ 
+-#include <varargs.h>
++#include <stdarg.h>
+ #include <ctype.h>
+ 
+ int
+-rb_scan_args(argc, argv, fmt, va_alist)
+-    int argc;
+-    VALUE *argv;
+-    char *fmt;
+-    va_dcl
++rb_scan_args(int argc, VALUE *argv, char *fmt, ...)
+ {
+     int n, i;
+     char *p = fmt;
+     VALUE *var;
+     va_list vargs;
+ 
+-    va_start(vargs);
++    va_start(vargs, fmt);
+ 
+     if (*p == '*') {
+ 	var = va_arg(vargs, VALUE*);
+diff -u ruby-1.0-971225/dir.c ruby-1.0-971225-patched/dir.c
+--- ruby-1.0-971225/dir.c	1997-10-24 08:05:09.000000000 +0200
++++ ruby-1.0-971225-patched/dir.c	2012-12-20 11:46:59.297979427 +0100
+@@ -11,6 +11,7 @@
+ ************************************************/
+ 
+ #include "ruby.h"
++#include <string.h>
+ 
+ #include <sys/types.h>
+ #ifdef HAVE_UNISTD_H
+diff -u ruby-1.0-971225/dln.c ruby-1.0-971225-patched/dln.c
+--- ruby-1.0-971225/dln.c	1997-09-24 03:19:14.000000000 +0200
++++ ruby-1.0-971225-patched/dln.c	2012-12-20 12:03:17.889968366 +0100
+@@ -54,7 +54,7 @@
+ #endif
+ 
+ #ifndef NT
+-char *strdup();
++/*char *strdup();*/
+ 
+ char *getenv();
+ #endif
+diff -u ruby-1.0-971225/enum.c ruby-1.0-971225-patched/enum.c
+--- ruby-1.0-971225/enum.c	1997-09-19 10:20:57.000000000 +0200
++++ ruby-1.0-971225-patched/enum.c	2012-12-20 12:04:20.769960279 +0100
+@@ -78,7 +78,7 @@
+ static VALUE
+ enum_find(argc, argv, obj)
+     int argc;
+-    VALUE argv;
++    VALUE* argv;
+     VALUE obj;
+ {
+     struct find_arg arg;
+diff -u ruby-1.0-971225/error.c ruby-1.0-971225-patched/error.c
+--- ruby-1.0-971225/error.c	1997-10-07 06:30:38.000000000 +0200
++++ ruby-1.0-971225-patched/error.c	2012-12-20 12:04:53.661972073 +0100
+@@ -13,7 +13,8 @@
+ #include "ruby.h"
+ #include "env.h"
+ #include <stdio.h>
+-#include <varargs.h>
++#include <stdarg.h>
++#include <string.h>
+ 
+ extern char *sourcefile;
+ extern int   sourceline;
+@@ -68,36 +69,30 @@
+ }
+ 
+ void
+-Error(fmt, va_alist)
+-    char *fmt;
+-    va_dcl
++Error(char* fmt, ...)
+ {
+     va_list args;
+ 
+-    va_start(args);
++    va_start(args, fmt);
+     err_print(fmt, args);
+     va_end(args);
+     nerrs++;
+ }
+ 
+ void
+-Error_Append(fmt, va_alist)
+-    char *fmt;
+-    va_dcl
++Error_Append(char* fmt, ...)
+ {
+     va_list args;
+     char buf[BUFSIZ];
+ 
+-    va_start(args);
++    va_start(args, fmt);
+     vsprintf(buf, fmt, args);
+     va_end(args);
+     err_append(buf);
+ }
+ 
+ void
+-Warning(fmt, va_alist)
+-    char *fmt;
+-    va_dcl
++Warning(char* fmt, ...)
+ {
+     char buf[BUFSIZ];
+     va_list args;
+@@ -106,15 +101,13 @@
+ 
+     sprintf(buf, "warning: %s", fmt);
+ 
+-    va_start(args);
++    va_start(args, fmt);
+     err_print(buf, args);
+     va_end(args);
+ }
+ 
+ void
+-Bug(fmt, va_alist)
+-    char *fmt;
+-    va_dcl
++Bug(char* fmt, ...)
+ {
+     char buf[BUFSIZ];
+     va_list args;
+@@ -122,7 +115,7 @@
+     sprintf(buf, "[BUG] %s", fmt);
+     rb_in_eval = 0;
+ 
+-    va_start(args);
++    va_start(args, fmt);
+     err_print(buf, args);
+     va_end(args);
+     abort();
+@@ -156,7 +149,7 @@
+     -1,		0,
+ };
+ 
+-extern void TypeError();
++extern void TypeError(char*, ...);
+ 
+ void
+ rb_check_type(x, t)
+@@ -267,7 +260,7 @@
+     int argc;
+     VALUE *argv;
+ {
+-    void ArgError();
++    void ArgError(char*, ...);
+     VALUE v = Qnil;
+     int i;
+     ID id;
+@@ -341,7 +334,7 @@
+     va_list args;\
+     char buf[BUFSIZ];\
+ \
+-    va_start(args);\
++    va_start(args, fmt);\
+     vsprintf(buf, fmt, args);\
+     va_end(args);\
+ \
+@@ -349,50 +342,37 @@
+ }
+ 
+ void
+-Raise(exc, fmt, va_alist)
+-    VALUE exc;
+-    char *fmt;
+-    va_dcl
++Raise(VALUE exc, char* fmt, ...)
+ {
+     RAISE_ERROR(exc);
+ }
+ 
+ void
+-TypeError(fmt, va_alist)
+-    char *fmt;
+-    va_dcl
++TypeError(char* fmt, ...)
+ {
+     RAISE_ERROR(eTypeError);
+ }
+ 
+ void
+-ArgError(fmt, va_alist)
+-    char *fmt;
+-    va_dcl
++ArgError(char* fmt, ...)
+ {
+     RAISE_ERROR(eArgError);
+ }
+ 
+ void
+-NameError(fmt, va_alist)
+-    char *fmt;
+-    va_dcl
++NameError(char* fmt, ...)
+ {
+     RAISE_ERROR(eNameError);
+ }
+ 
+ void
+-IndexError(fmt, va_alist)
+-    char *fmt;
+-    va_dcl
++IndexError(char* fmt, ...)
+ {
+     RAISE_ERROR(eIndexError);
+ }
+ 
+ void
+-Fail(fmt, va_alist)
+-    char *fmt;
+-    va_dcl
++Fail(char* fmt, ...)
+ {
+     RAISE_ERROR(eRuntimeError);
+ }
+@@ -403,25 +383,22 @@
+     Raise(eNotImpError,
+ 	  "The %s() function is unimplemented on this machine",
+ 	  rb_id2name(the_frame->last_func));
++    abort();
+ }
+ 
+ void
+-LoadError(fmt, va_alist)
+-    char *fmt;
+-    va_dcl
++LoadError(char* fmt, ...)
+ {
+     RAISE_ERROR(eLoadError);
+ }
+ 
+ void
+-Fatal(fmt, va_alist)
+-    char *fmt;
+-    va_dcl
++Fatal(char* fmt, ...)
+ {
+     va_list args;
+     char buf[BUFSIZ];
+ 
+-    va_start(args);
++    va_start(args, fmt);
+     vsprintf(buf, fmt, args);
+     va_end(args);
+ 
+diff -u ruby-1.0-971225/eval.c ruby-1.0-971225-patched/eval.c
+--- ruby-1.0-971225/eval.c	1997-12-08 05:05:20.000000000 +0100
++++ ruby-1.0-971225-patched/eval.c	2012-12-20 12:01:22.378007871 +0100
+@@ -3144,14 +3144,10 @@
+     return vid;
+ }
+ 
+-#include <varargs.h>
++#include <stdarg.h>
+ 
+ VALUE
+-rb_funcall(recv, mid, n, va_alist)
+-    VALUE recv;
+-    ID mid;
+-    int n;
+-    va_dcl
++rb_funcall(VALUE recv, ID mid, int n, ...)
+ {
+     va_list ar;
+     VALUE *argv;
+@@ -3161,7 +3157,7 @@
+ 
+ 	argv = ALLOCA_N(VALUE, n);
+ 
+-	va_start(ar);
++	va_start(ar, n);
+ 	for (i=0;i<n;i++) {
+ 	    argv[i] = va_arg(ar, VALUE);
+ 	}
+Common subdirectories: ruby-1.0-971225/ext and ruby-1.0-971225-patched/ext
+diff -u ruby-1.0-971225/file.c ruby-1.0-971225-patched/file.c
+--- ruby-1.0-971225/file.c	1997-10-20 04:09:34.000000000 +0200
++++ ruby-1.0-971225-patched/file.c	2012-12-20 12:08:38.967634454 +0100
+@@ -53,8 +53,8 @@
+ #endif
+ 
+ #ifndef NT
+-char *strdup();
+-char *getenv();
++/*char *strdup();
++char *getenv();*/
+ #endif
+ 
+ extern VALUE cIO;
+@@ -1229,7 +1229,7 @@
+     struct RString *fname;
+ {
+     char *s, *p;
+-    char buf[MAXPATHLEN];
++    char buf[MAXPATHLEN], *unused;
+ 
+     Check_Type(fname, T_STRING);
+     s = fname->ptr;
+@@ -1270,7 +1270,7 @@
+     }
+     else if (s[0] != '/') {
+ #ifdef HAVE_GETCWD
+-	getcwd(buf, MAXPATHLEN);
++	unused = getcwd(buf, MAXPATHLEN);
+ #else
+ 	getwd(buf);
+ #endif
+diff -u ruby-1.0-971225/gc.c ruby-1.0-971225-patched/gc.c
+--- ruby-1.0-971225/gc.c	1997-11-05 05:26:59.000000000 +0100
++++ ruby-1.0-971225-patched/gc.c	2012-12-20 12:10:12.082004630 +0100
+@@ -18,6 +18,7 @@
+ #include "re.h"
+ #include <stdio.h>
+ #include <setjmp.h>
++#include <string.h>
+ 
+ #ifndef setjmp
+ #ifdef HAVE__SETJMP
+@@ -718,29 +719,29 @@
+ #if defined(__human68k__) || defined(DJGPP)
+ #if defined(__human68k__)
+ typedef unsigned long rb_jmp_buf[8];
+-__asm__ (".even
+-_rb_setjmp:
+-	move.l	4(sp),a0
+-	movem.l	d3-d7/a3-a5,(a0)
+-	moveq.l	#0,d0
+-	rts");
++__asm__ (".even\n"
++"_rb_setjmp:\n"
++"	move.l	4(sp),a0\n"
++"	movem.l	d3-d7/a3-a5,(a0)\n"
++"	moveq.l	#0,d0\n"
++"	rts");
+ #else
+ #if defined(DJGPP)
+ typedef unsigned long rb_jmp_buf[6];
+-__asm__ (".align 4
+-_rb_setjmp:
+-	pushl	%ebp
+-	movl	%esp,%ebp
+-	movl	8(%ebp),%ebp
+-	movl	%eax,(%ebp)
+-	movl	%ebx,4(%ebp)
+-	movl	%ecx,8(%ebp)
+-	movl	%edx,12(%ebp)
+-	movl	%esi,16(%ebp)
+-	movl	%edi,20(%ebp)
+-	popl	%ebp
+-	xorl	%eax,%eax
+-	ret");
++__asm__ (".align 4\n"
++"_rb_setjmp:\n"
++"	pushl	%ebp\n"
++"	movl	%esp,%ebp\n"
++"	movl	8(%ebp),%ebp\n"
++"	movl	%eax,(%ebp)\n"
++"	movl	%ebx,4(%ebp)\n"
++"	movl	%ecx,8(%ebp)\n"
++"	movl	%edx,12(%ebp)\n"
++"	movl	%esi,16(%ebp)\n"
++"	movl	%edi,20(%ebp)\n"
++"	popl	%ebp\n"
++"	xorl	%eax,%eax\n"
++"	ret");
+ #endif
+ #endif
+ int rb_setjmp (rb_jmp_buf);
+diff -u ruby-1.0-971225/glob.c ruby-1.0-971225-patched/glob.c
+--- ruby-1.0-971225/glob.c	1997-09-03 10:32:13.000000000 +0200
++++ ruby-1.0-971225-patched/glob.c	2012-12-20 12:12:07.218005784 +0100
+@@ -19,6 +19,9 @@
+    Unix programs use to perform this function.  I wrote this from scratch
+    based on specifications for the pattern matching.  --RMS.  */
+ 
++#include <alloca.h>
++#include <stdlib.h>
++#include <stdio.h>
+ #include "config.h"
+ 
+ #include <sys/types.h>
+@@ -78,12 +81,6 @@
+ 
+ #ifdef _AIX
+ #pragma alloca
+-#else
+-#if defined(HAVE_ALLOCA_H) && !defined(__GNUC__)
+-#include <alloca.h>
+-#else
+-char *alloca ();
+-#endif
+ #endif
+ 
+ #include "fnmatch.h"
+diff -u ruby-1.0-971225/io.c ruby-1.0-971225-patched/io.c
+--- ruby-1.0-971225/io.c	1997-12-01 04:43:57.000000000 +0100
++++ ruby-1.0-971225-patched/io.c	2012-12-20 12:16:58.688977090 +0100
+@@ -14,6 +14,7 @@
+ #include "io.h"
+ #include <ctype.h>
+ #include <errno.h>
++#include <string.h>
+ 
+ #include <sys/types.h>
+ #if !defined(DJGPP) && !defined(NT) && !defined(__human68k__)
+@@ -332,7 +333,7 @@
+ VALUE
+ io_gets_method(argc, argv, io)
+     int argc;
+-    VALUE argv;
++    VALUE* argv;
+     VALUE io;
+ {
+     OpenFile *fptr;
+@@ -961,7 +962,7 @@
+ 	    rb_proc_exec(pname);
+ 	    fprintf(stderr, "%s:%d: command not found: %s\n",
+ 		    sourcefile, sourceline, pname);
+-	    _exit(127);
++	    exit(127);
+ 	}
+ 	return Qnil;
+ 
+@@ -1065,10 +1066,6 @@
+     return io_open(RSTRING(pname)->ptr, mode);
+ }
+ 
+-#ifndef NT
+-extern char *strdup();
+-#endif
+-
+ VALUE
+ io_reopen(io, nfile)
+     VALUE io, nfile;
+Common subdirectories: ruby-1.0-971225/lib and ruby-1.0-971225-patched/lib
+Common subdirectories: ruby-1.0-971225/missing and ruby-1.0-971225-patched/missing
+diff -u ruby-1.0-971225/numeric.c ruby-1.0-971225-patched/numeric.c
+--- ruby-1.0-971225/numeric.c	1997-09-08 03:28:48.000000000 +0200
++++ ruby-1.0-971225-patched/numeric.c	2012-12-20 12:17:27.005984973 +0100
+@@ -12,6 +12,7 @@
+ 
+ #include "ruby.h"
+ #include <math.h>
++#include <stdio.h>
+ #if defined (HAVE_STRING_H)
+ #  include <string.h>
+ #else
+diff -u ruby-1.0-971225/object.c ruby-1.0-971225-patched/object.c
+--- ruby-1.0-971225/object.c	1997-09-16 09:25:03.000000000 +0200
++++ ruby-1.0-971225-patched/object.c	2012-12-20 12:18:04.406006713 +0100
+@@ -13,6 +13,7 @@
+ #include "ruby.h"
+ #include "st.h"
+ #include <stdio.h>
++#include <string.h>
+ 
+ VALUE mKernel;
+ VALUE cObject;
+@@ -175,7 +176,7 @@
+ 
+ 	return str;
+     }
+-    return rb_funcall(obj, rb_intern("to_s"), 0, 0);
++    return rb_funcall((VALUE)obj, rb_intern("to_s"), 0, 0);
+ }
+ 
+ VALUE
+diff -u ruby-1.0-971225/pack.c ruby-1.0-971225-patched/pack.c
+--- ruby-1.0-971225/pack.c	1997-08-19 09:23:58.000000000 +0200
++++ ruby-1.0-971225-patched/pack.c	2012-12-20 12:18:18.953972981 +0100
+@@ -11,6 +11,7 @@
+ ************************************************/
+ 
+ #include "ruby.h"
++#include <string.h>
+ #include <ctype.h>
+ #include <sys/types.h>
+ 
+diff -u ruby-1.0-971225/parse.y ruby-1.0-971225-patched/parse.y
+--- ruby-1.0-971225/parse.y	1997-12-09 09:53:42.000000000 +0100
++++ ruby-1.0-971225-patched/parse.y	2012-12-20 12:19:15.173978542 +0100
+@@ -18,6 +18,7 @@
+ #include "node.h"
+ #include "st.h"
+ #include <stdio.h>
++#include <string.h>
+ 
+ /* hack for bison */
+ #ifdef const
+@@ -1364,7 +1365,6 @@
+ VALUE newstring();
+ VALUE newfloat();
+ VALUE newinteger();
+-char *strdup();
+ 
+ static NODE *str_extend();
+ 
+@@ -3498,8 +3498,6 @@
+ void
+ Init_sym()
+ {
+-    int strcmp();
+-
+     sym_tbl = st_init_strtable();
+     rb_global_variable(&cur_cref);
+ }
+diff -u ruby-1.0-971225/process.c ruby-1.0-971225-patched/process.c
+--- ruby-1.0-971225/process.c	1997-09-24 03:19:14.000000000 +0200
++++ ruby-1.0-971225-patched/process.c	2012-12-20 12:19:37.148950097 +0100
+@@ -11,6 +11,7 @@
+ ************************************************/
+ 
+ #include "ruby.h"
++#include <string.h>
+ #include "sig.h"
+ #include <stdio.h>
+ #include <errno.h>
+diff -u ruby-1.0-971225/re.c ruby-1.0-971225-patched/re.c
+--- ruby-1.0-971225/re.c	1997-08-27 04:10:15.000000000 +0200
++++ ruby-1.0-971225-patched/re.c	2012-12-20 12:20:37.524978687 +0100
+@@ -12,6 +12,7 @@
+ 
+ #include "ruby.h"
+ #include "re.h"
++#include <string.h>
+ 
+ static VALUE eRegxpError;
+ 
+diff -u ruby-1.0-971225/regex.c ruby-1.0-971225-patched/regex.c
+--- ruby-1.0-971225/regex.c	1997-11-18 05:49:01.000000000 +0100
++++ ruby-1.0-971225-patched/regex.c	2012-12-20 12:21:20.829978332 +0100
+@@ -27,6 +27,8 @@
+ 
+ /* We write fatal error messages on standard error.  */
+ #include <stdio.h>
++#include <string.h>
++#include <stdlib.h>
+ 
+ /* isalpha(3) etc. are used for the character classes.  */
+ #include <ctype.h>
+diff -u ruby-1.0-971225/ruby.c ruby-1.0-971225-patched/ruby.c
+--- ruby-1.0-971225/ruby.c	1997-10-21 06:23:34.000000000 +0200
++++ ruby-1.0-971225-patched/ruby.c	2012-12-20 12:21:31.660976603 +0100
+@@ -36,7 +36,6 @@
+ static int sflag = FALSE;
+ 
+ char *inplace = FALSE;
+-char *strdup();
+ 
+ extern char *sourcefile;
+ extern int yydebug;
+diff -u ruby-1.0-971225/ruby.h ruby-1.0-971225-patched/ruby.h
+--- ruby-1.0-971225/ruby.h	1997-09-03 10:32:14.000000000 +0200
++++ ruby-1.0-971225-patched/ruby.h	2012-12-20 12:00:54.297979601 +0100
+@@ -324,8 +324,8 @@
+ int rb_method_boundp _((VALUE,ID,int));
+ 
+ VALUE rb_eval_string _((char*));
+-VALUE rb_funcall();
+-int rb_scan_args();
++VALUE rb_funcall(VALUE, ID, int, ...);
++int rb_scan_args(int argc, VALUE *argv, char* fmt, ...);
+ 
+ VALUE rb_iv_get();
+ VALUE rb_iv_set();
+@@ -344,10 +344,6 @@
+ 
+ #ifdef __GNUC__
+ typedef void voidfn ();
+-volatile voidfn Raise;
+-volatile voidfn Fail;
+-volatile voidfn Fatal;
+-volatile voidfn Bug;
+ volatile voidfn WrongType;
+ volatile voidfn rb_sys_fail;
+ volatile voidfn rb_break;
+@@ -356,10 +352,6 @@
+ volatile voidfn rb_raise;
+ volatile voidfn rb_notimplement;
+ #else
+-void Raise();
+-void Fail();
+-void Fatal();
+-void Bug();
+ void WrongType();
+ void rb_sys_fail();
+ void rb_break();
+@@ -369,8 +361,13 @@
+ void rb_notimplement();
+ #endif
+ 
+-void Error();
+-void Warning();
++void Raise(VALUE, char*, ...);
++void Fail(char*, ...);
++void Fatal(char*, ...);
++void Bug(char*, ...);
++
++void Error(char* fmt, ...);
++void Warning(char* fmt, ...);
+ 
+ #if defined(EXTLIB) && defined(USE_DLN_A_OUT)
+ /* hook for external modules */
+Common subdirectories: ruby-1.0-971225/sample and ruby-1.0-971225-patched/sample
+diff -u ruby-1.0-971225/sprintf.c ruby-1.0-971225-patched/sprintf.c
+--- ruby-1.0-971225/sprintf.c	1997-08-26 02:54:41.000000000 +0200
++++ ruby-1.0-971225-patched/sprintf.c	2012-12-20 12:22:01.757950832 +0100
+@@ -12,6 +12,8 @@
+ 
+ #include "ruby.h"
+ #include <ctype.h>
++#include <string.h>
++#include <stdio.h>
+ 
+ static void fmt_setup();
+ 
+diff -u ruby-1.0-971225/st.c ruby-1.0-971225-patched/st.c
+--- ruby-1.0-971225/st.c	1997-12-22 15:19:42.000000000 +0100
++++ ruby-1.0-971225-patched/st.c	2012-12-20 12:22:13.877962037 +0100
+@@ -4,6 +4,7 @@
+ 
+ #include "config.h"
+ #include <stdio.h>
++#include <stdlib.h>
+ #include "st.h"
+ 
+ #define ST_DEFAULT_MAX_DENSITY 5
+diff -u ruby-1.0-971225/string.c ruby-1.0-971225-patched/string.c
+--- ruby-1.0-971225/string.c	1997-12-09 02:18:11.000000000 +0100
++++ ruby-1.0-971225-patched/string.c	2012-12-20 12:22:38.892979022 +0100
+@@ -17,6 +17,7 @@
+ #define END(no) regs->end[no]
+ 
+ #include <stdio.h>
++#include <string.h>
+ #include <ctype.h>
+ 
+ VALUE cString;
+diff -u ruby-1.0-971225/struct.c ruby-1.0-971225-patched/struct.c
+--- ruby-1.0-971225/struct.c	1997-10-03 03:50:40.000000000 +0200
++++ ruby-1.0-971225-patched/struct.c	2012-12-20 12:24:46.649960069 +0100
+@@ -9,6 +9,8 @@
+ ************************************************/
+ 
+ #include "ruby.h"
++#include <string.h>
++#include <stdio.h>
+ 
+ ID rb_frame_last_func();
+ VALUE cStruct;
+@@ -155,12 +157,10 @@
+     return nstr;
+ }
+ 
+-#include <varargs.h>
++#include <stdarg.h>
+ 
+ VALUE
+-struct_define(name, va_alist)
+-    char *name;
+-    va_dcl
++struct_define(char* name, ...)
+ {
+     va_list ar;
+     VALUE nm, ary;
+@@ -169,7 +169,7 @@
+     nm = str_new2(name);
+     ary = ary_new();
+ 
+-    va_start(ar);
++    va_start(ar, name);
+     while (mem = va_arg(ar, char*)) {
+ 	ID slot = rb_intern(mem);
+ 	ary_push(ary, INT2FIX(slot));
+@@ -225,9 +225,7 @@
+ }
+ 
+ VALUE
+-struct_new(class, va_alist)
+-    VALUE class;
+-    va_dcl
++struct_new(VALUE class, ...)
+ {
+     VALUE val, mem;
+     int size;
+@@ -236,7 +234,7 @@
+     val = rb_iv_get(class, "__size__");
+     size = FIX2INT(val); 
+     mem = ary_new();
+-    va_start(args);
++    va_start(args, class);
+     while (size--) {
+ 	val = va_arg(args, VALUE);
+ 	ary_push(mem, val);
+diff -u ruby-1.0-971225/variable.c ruby-1.0-971225-patched/variable.c
+--- ruby-1.0-971225/variable.c	1997-09-07 23:29:02.000000000 +0200
++++ ruby-1.0-971225-patched/variable.c	2012-12-20 12:25:12.664973772 +0100
+@@ -12,6 +12,7 @@
+ #include "env.h"
+ #include "node.h"
+ #include "st.h"
++#include <stdio.h>
+ 
+ #ifdef HAVE_STRING_H
+ # include <string.h>
+Common subdirectories: ruby-1.0-971225/win32 and ruby-1.0-971225-patched/win32
+Common subdirectories: ruby-1.0-971225/x68 and ruby-1.0-971225-patched/x68
