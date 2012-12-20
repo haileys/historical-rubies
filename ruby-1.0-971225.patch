@@ -1,6 +1,6 @@
-diff -u ruby-1.0-971225/array.c ruby-1.0-971225-patched/array.c
---- ruby-1.0-971225/array.c	1997-10-22 05:52:12.000000000 +0200
-+++ ruby-1.0-971225-patched/array.c	2012-12-20 11:43:49.992978550 +0100
+diff -r -u ruby-1.0-971225/array.c ruby-1.0-971225-patched/array.c
+--- ruby-1.0-971225/array.c	1997-10-22 13:52:12.000000000 +1000
++++ ruby-1.0-971225-patched/array.c	2012-12-20 22:59:01.000000000 +1100
 @@ -11,6 +11,7 @@
  ************************************************/
  
@@ -33,9 +33,9 @@ diff -u ruby-1.0-971225/array.c ruby-1.0-971225-patched/array.c
      for (i=0; i<n; i++) {
  	ary->ptr[i] = va_arg(ar, VALUE);
      }
-diff -u ruby-1.0-971225/bignum.c ruby-1.0-971225-patched/bignum.c
---- ruby-1.0-971225/bignum.c	1997-10-21 06:31:05.000000000 +0200
-+++ ruby-1.0-971225-patched/bignum.c	2012-12-20 11:46:29.042005628 +0100
+diff -r -u ruby-1.0-971225/bignum.c ruby-1.0-971225-patched/bignum.c
+--- ruby-1.0-971225/bignum.c	1997-10-21 14:31:05.000000000 +1000
++++ ruby-1.0-971225-patched/bignum.c	2012-12-20 22:59:01.000000000 +1100
 @@ -11,6 +11,7 @@
  #include "ruby.h"
  #include <ctype.h>
@@ -44,9 +44,9 @@ diff -u ruby-1.0-971225/bignum.c ruby-1.0-971225-patched/bignum.c
  
  extern VALUE cInteger;
  VALUE cBignum;
-diff -u ruby-1.0-971225/class.c ruby-1.0-971225-patched/class.c
---- ruby-1.0-971225/class.c	1997-09-03 10:32:12.000000000 +0200
-+++ ruby-1.0-971225-patched/class.c	2012-12-20 11:46:02.321948745 +0100
+diff -r -u ruby-1.0-971225/class.c ruby-1.0-971225-patched/class.c
+--- ruby-1.0-971225/class.c	1997-09-03 18:32:12.000000000 +1000
++++ ruby-1.0-971225-patched/class.c	2012-12-20 22:59:01.000000000 +1100
 @@ -13,6 +13,8 @@
  #include "ruby.h"
  #include "node.h"
@@ -82,9 +82,9 @@ diff -u ruby-1.0-971225/class.c ruby-1.0-971225-patched/class.c
  
      if (*p == '*') {
  	var = va_arg(vargs, VALUE*);
-diff -u ruby-1.0-971225/dir.c ruby-1.0-971225-patched/dir.c
---- ruby-1.0-971225/dir.c	1997-10-24 08:05:09.000000000 +0200
-+++ ruby-1.0-971225-patched/dir.c	2012-12-20 11:46:59.297979427 +0100
+diff -r -u ruby-1.0-971225/dir.c ruby-1.0-971225-patched/dir.c
+--- ruby-1.0-971225/dir.c	1997-10-24 16:05:09.000000000 +1000
++++ ruby-1.0-971225-patched/dir.c	2012-12-20 22:59:01.000000000 +1100
 @@ -11,6 +11,7 @@
  ************************************************/
  
@@ -93,9 +93,9 @@ diff -u ruby-1.0-971225/dir.c ruby-1.0-971225-patched/dir.c
  
  #include <sys/types.h>
  #ifdef HAVE_UNISTD_H
-diff -u ruby-1.0-971225/dln.c ruby-1.0-971225-patched/dln.c
---- ruby-1.0-971225/dln.c	1997-09-24 03:19:14.000000000 +0200
-+++ ruby-1.0-971225-patched/dln.c	2012-12-20 12:03:17.889968366 +0100
+diff -r -u ruby-1.0-971225/dln.c ruby-1.0-971225-patched/dln.c
+--- ruby-1.0-971225/dln.c	1997-09-24 11:19:14.000000000 +1000
++++ ruby-1.0-971225-patched/dln.c	2012-12-20 22:59:01.000000000 +1100
 @@ -54,7 +54,7 @@
  #endif
  
@@ -105,9 +105,9 @@ diff -u ruby-1.0-971225/dln.c ruby-1.0-971225-patched/dln.c
  
  char *getenv();
  #endif
-diff -u ruby-1.0-971225/enum.c ruby-1.0-971225-patched/enum.c
---- ruby-1.0-971225/enum.c	1997-09-19 10:20:57.000000000 +0200
-+++ ruby-1.0-971225-patched/enum.c	2012-12-20 12:04:20.769960279 +0100
+diff -r -u ruby-1.0-971225/enum.c ruby-1.0-971225-patched/enum.c
+--- ruby-1.0-971225/enum.c	1997-09-19 18:20:57.000000000 +1000
++++ ruby-1.0-971225-patched/enum.c	2012-12-20 22:59:01.000000000 +1100
 @@ -78,7 +78,7 @@
  static VALUE
  enum_find(argc, argv, obj)
@@ -117,9 +117,9 @@ diff -u ruby-1.0-971225/enum.c ruby-1.0-971225-patched/enum.c
      VALUE obj;
  {
      struct find_arg arg;
-diff -u ruby-1.0-971225/error.c ruby-1.0-971225-patched/error.c
---- ruby-1.0-971225/error.c	1997-10-07 06:30:38.000000000 +0200
-+++ ruby-1.0-971225-patched/error.c	2012-12-20 12:04:53.661972073 +0100
+diff -r -u ruby-1.0-971225/error.c ruby-1.0-971225-patched/error.c
+--- ruby-1.0-971225/error.c	1997-10-07 14:30:38.000000000 +1000
++++ ruby-1.0-971225-patched/error.c	2012-12-20 22:59:38.000000000 +1100
 @@ -13,7 +13,8 @@
  #include "ruby.h"
  #include "env.h"
@@ -217,7 +217,18 @@ diff -u ruby-1.0-971225/error.c ruby-1.0-971225-patched/error.c
      VALUE v = Qnil;
      int i;
      ID id;
-@@ -341,7 +334,7 @@
+@@ -292,10 +285,6 @@
+ 
+ static VALUE *syserr_list;
+ 
+-#ifndef NT
+-extern int sys_nerr;
+-#endif
+-
+ static void
+ set_syserr(i, name)
+     int i;
+@@ -341,7 +330,7 @@
      va_list args;\
      char buf[BUFSIZ];\
  \
@@ -226,7 +237,7 @@ diff -u ruby-1.0-971225/error.c ruby-1.0-971225-patched/error.c
      vsprintf(buf, fmt, args);\
      va_end(args);\
  \
-@@ -349,50 +342,37 @@
+@@ -349,50 +338,37 @@
  }
  
  void
@@ -283,7 +294,7 @@ diff -u ruby-1.0-971225/error.c ruby-1.0-971225-patched/error.c
  {
      RAISE_ERROR(eRuntimeError);
  }
-@@ -403,25 +383,22 @@
+@@ -403,25 +379,22 @@
      Raise(eNotImpError,
  	  "The %s() function is unimplemented on this machine",
  	  rb_id2name(the_frame->last_func));
@@ -313,9 +324,9 @@ diff -u ruby-1.0-971225/error.c ruby-1.0-971225-patched/error.c
      vsprintf(buf, fmt, args);
      va_end(args);
  
-diff -u ruby-1.0-971225/eval.c ruby-1.0-971225-patched/eval.c
---- ruby-1.0-971225/eval.c	1997-12-08 05:05:20.000000000 +0100
-+++ ruby-1.0-971225-patched/eval.c	2012-12-20 12:01:22.378007871 +0100
+diff -r -u ruby-1.0-971225/eval.c ruby-1.0-971225-patched/eval.c
+--- ruby-1.0-971225/eval.c	1997-12-08 15:05:20.000000000 +1100
++++ ruby-1.0-971225-patched/eval.c	2012-12-20 22:59:01.000000000 +1100
 @@ -3144,14 +3144,10 @@
      return vid;
  }
@@ -342,10 +353,82 @@ diff -u ruby-1.0-971225/eval.c ruby-1.0-971225-patched/eval.c
  	for (i=0;i<n;i++) {
  	    argv[i] = va_arg(ar, VALUE);
  	}
-Common subdirectories: ruby-1.0-971225/ext and ruby-1.0-971225-patched/ext
-diff -u ruby-1.0-971225/file.c ruby-1.0-971225-patched/file.c
---- ruby-1.0-971225/file.c	1997-10-20 04:09:34.000000000 +0200
-+++ ruby-1.0-971225-patched/file.c	2012-12-20 12:08:38.967634454 +0100
+diff -r -u ruby-1.0-971225/ext/curses/curses.c ruby-1.0-971225-patched/ext/curses/curses.c
+--- ruby-1.0-971225/ext/curses/curses.c	1997-11-27 16:20:24.000000000 +1100
++++ ruby-1.0-971225-patched/ext/curses/curses.c	2012-12-20 23:14:31.000000000 +1100
+@@ -22,6 +22,7 @@
+ #endif
+ 
+ #include "ruby.h"
++#include <string.h>
+ 
+ static VALUE mCurses;
+ static VALUE cWindow;
+diff -r -u ruby-1.0-971225/ext/dbm/dbm.c ruby-1.0-971225-patched/ext/dbm/dbm.c
+--- ruby-1.0-971225/ext/dbm/dbm.c	1997-11-19 13:10:32.000000000 +1100
++++ ruby-1.0-971225-patched/ext/dbm/dbm.c	2012-12-20 23:14:21.000000000 +1100
+@@ -15,6 +15,7 @@
+ #include <ndbm.h>
+ #include <fcntl.h>
+ #include <errno.h>
++#include <string.h>
+ 
+ VALUE cDBM;
+ 
+diff -r -u ruby-1.0-971225/ext/marshal/marshal.c ruby-1.0-971225-patched/ext/marshal/marshal.c
+--- ruby-1.0-971225/ext/marshal/marshal.c	1997-12-18 17:18:41.000000000 +1100
++++ ruby-1.0-971225-patched/ext/marshal/marshal.c	2012-12-20 23:12:59.000000000 +1100
+@@ -12,6 +12,7 @@
+ #include "ruby.h"
+ #include "io.h"
+ #include "st.h"
++#include <string.h>
+ 
+ #define MARSHAL_MAJOR   4
+ #define MARSHAL_MINOR   0
+@@ -398,7 +399,7 @@
+ static VALUE
+ marshal_dump(argc, argv)
+     int argc;
+-    VALUE argv;
++    VALUE* argv;
+ {
+     VALUE obj, port, a1, a2;
+     int limit = -1;
+diff -r -u ruby-1.0-971225/ext/md5/md5init.c ruby-1.0-971225-patched/ext/md5/md5init.c
+--- ruby-1.0-971225/ext/md5/md5init.c	1997-02-10 02:36:29.000000000 +1100
++++ ruby-1.0-971225-patched/ext/md5/md5init.c	2012-12-20 23:14:01.000000000 +1100
+@@ -15,6 +15,7 @@
+ 
+ #include "ruby.h"
+ #include "md5.h"
++#include <string.h>
+ 
+ static VALUE cMD5;
+ 
+@@ -60,7 +61,7 @@
+ }
+ 
+ static VALUE
+-md5_new(argc, argv, class)
++md5_new(int argc, VALUE* argv, VALUE class)
+ {
+     int i;
+     VALUE arg, obj;
+diff -r -u ruby-1.0-971225/ext/socket/socket.c ruby-1.0-971225-patched/ext/socket/socket.c
+--- ruby-1.0-971225/ext/socket/socket.c	1997-09-11 16:13:30.000000000 +1000
++++ ruby-1.0-971225-patched/ext/socket/socket.c	2012-12-20 23:13:23.000000000 +1100
+@@ -16,6 +16,7 @@
+ #include <netinet/in.h>
+ #include <netdb.h>
+ #include <errno.h>
++#include <string.h>
+ #ifdef HAVE_SYS_UN_H
+ #include <sys/un.h>
+ #endif
+diff -r -u ruby-1.0-971225/file.c ruby-1.0-971225-patched/file.c
+--- ruby-1.0-971225/file.c	1997-10-20 12:09:34.000000000 +1000
++++ ruby-1.0-971225-patched/file.c	2012-12-20 22:59:01.000000000 +1100
 @@ -53,8 +53,8 @@
  #endif
  
@@ -375,9 +458,9 @@ diff -u ruby-1.0-971225/file.c ruby-1.0-971225-patched/file.c
  #else
  	getwd(buf);
  #endif
-diff -u ruby-1.0-971225/gc.c ruby-1.0-971225-patched/gc.c
---- ruby-1.0-971225/gc.c	1997-11-05 05:26:59.000000000 +0100
-+++ ruby-1.0-971225-patched/gc.c	2012-12-20 12:10:12.082004630 +0100
+diff -r -u ruby-1.0-971225/gc.c ruby-1.0-971225-patched/gc.c
+--- ruby-1.0-971225/gc.c	1997-11-05 15:26:59.000000000 +1100
++++ ruby-1.0-971225-patched/gc.c	2012-12-20 22:59:01.000000000 +1100
 @@ -18,6 +18,7 @@
  #include "re.h"
  #include <stdio.h>
@@ -436,9 +519,9 @@ diff -u ruby-1.0-971225/gc.c ruby-1.0-971225-patched/gc.c
  #endif
  #endif
  int rb_setjmp (rb_jmp_buf);
-diff -u ruby-1.0-971225/glob.c ruby-1.0-971225-patched/glob.c
---- ruby-1.0-971225/glob.c	1997-09-03 10:32:13.000000000 +0200
-+++ ruby-1.0-971225-patched/glob.c	2012-12-20 12:12:07.218005784 +0100
+diff -r -u ruby-1.0-971225/glob.c ruby-1.0-971225-patched/glob.c
+--- ruby-1.0-971225/glob.c	1997-09-03 18:32:13.000000000 +1000
++++ ruby-1.0-971225-patched/glob.c	2012-12-20 22:59:01.000000000 +1100
 @@ -19,6 +19,9 @@
     Unix programs use to perform this function.  I wrote this from scratch
     based on specifications for the pattern matching.  --RMS.  */
@@ -462,9 +545,9 @@ diff -u ruby-1.0-971225/glob.c ruby-1.0-971225-patched/glob.c
  #endif
  
  #include "fnmatch.h"
-diff -u ruby-1.0-971225/io.c ruby-1.0-971225-patched/io.c
---- ruby-1.0-971225/io.c	1997-12-01 04:43:57.000000000 +0100
-+++ ruby-1.0-971225-patched/io.c	2012-12-20 12:16:58.688977090 +0100
+diff -r -u ruby-1.0-971225/io.c ruby-1.0-971225-patched/io.c
+--- ruby-1.0-971225/io.c	1997-12-01 14:43:57.000000000 +1100
++++ ruby-1.0-971225-patched/io.c	2012-12-20 22:59:01.000000000 +1100
 @@ -14,6 +14,7 @@
  #include "io.h"
  #include <ctype.h>
@@ -502,11 +585,9 @@ diff -u ruby-1.0-971225/io.c ruby-1.0-971225-patched/io.c
  VALUE
  io_reopen(io, nfile)
      VALUE io, nfile;
-Common subdirectories: ruby-1.0-971225/lib and ruby-1.0-971225-patched/lib
-Common subdirectories: ruby-1.0-971225/missing and ruby-1.0-971225-patched/missing
-diff -u ruby-1.0-971225/numeric.c ruby-1.0-971225-patched/numeric.c
---- ruby-1.0-971225/numeric.c	1997-09-08 03:28:48.000000000 +0200
-+++ ruby-1.0-971225-patched/numeric.c	2012-12-20 12:17:27.005984973 +0100
+diff -r -u ruby-1.0-971225/numeric.c ruby-1.0-971225-patched/numeric.c
+--- ruby-1.0-971225/numeric.c	1997-09-08 11:28:48.000000000 +1000
++++ ruby-1.0-971225-patched/numeric.c	2012-12-20 22:59:01.000000000 +1100
 @@ -12,6 +12,7 @@
  
  #include "ruby.h"
@@ -515,9 +596,9 @@ diff -u ruby-1.0-971225/numeric.c ruby-1.0-971225-patched/numeric.c
  #if defined (HAVE_STRING_H)
  #  include <string.h>
  #else
-diff -u ruby-1.0-971225/object.c ruby-1.0-971225-patched/object.c
---- ruby-1.0-971225/object.c	1997-09-16 09:25:03.000000000 +0200
-+++ ruby-1.0-971225-patched/object.c	2012-12-20 12:18:04.406006713 +0100
+diff -r -u ruby-1.0-971225/object.c ruby-1.0-971225-patched/object.c
+--- ruby-1.0-971225/object.c	1997-09-16 17:25:03.000000000 +1000
++++ ruby-1.0-971225-patched/object.c	2012-12-20 22:59:01.000000000 +1100
 @@ -13,6 +13,7 @@
  #include "ruby.h"
  #include "st.h"
@@ -535,9 +616,9 @@ diff -u ruby-1.0-971225/object.c ruby-1.0-971225-patched/object.c
  }
  
  VALUE
-diff -u ruby-1.0-971225/pack.c ruby-1.0-971225-patched/pack.c
---- ruby-1.0-971225/pack.c	1997-08-19 09:23:58.000000000 +0200
-+++ ruby-1.0-971225-patched/pack.c	2012-12-20 12:18:18.953972981 +0100
+diff -r -u ruby-1.0-971225/pack.c ruby-1.0-971225-patched/pack.c
+--- ruby-1.0-971225/pack.c	1997-08-19 17:23:58.000000000 +1000
++++ ruby-1.0-971225-patched/pack.c	2012-12-20 22:59:01.000000000 +1100
 @@ -11,6 +11,7 @@
  ************************************************/
  
@@ -546,9 +627,9 @@ diff -u ruby-1.0-971225/pack.c ruby-1.0-971225-patched/pack.c
  #include <ctype.h>
  #include <sys/types.h>
  
-diff -u ruby-1.0-971225/parse.y ruby-1.0-971225-patched/parse.y
---- ruby-1.0-971225/parse.y	1997-12-09 09:53:42.000000000 +0100
-+++ ruby-1.0-971225-patched/parse.y	2012-12-20 12:19:15.173978542 +0100
+diff -r -u ruby-1.0-971225/parse.y ruby-1.0-971225-patched/parse.y
+--- ruby-1.0-971225/parse.y	1997-12-09 19:53:42.000000000 +1100
++++ ruby-1.0-971225-patched/parse.y	2012-12-20 22:59:01.000000000 +1100
 @@ -18,6 +18,7 @@
  #include "node.h"
  #include "st.h"
@@ -574,9 +655,9 @@ diff -u ruby-1.0-971225/parse.y ruby-1.0-971225-patched/parse.y
      sym_tbl = st_init_strtable();
      rb_global_variable(&cur_cref);
  }
-diff -u ruby-1.0-971225/process.c ruby-1.0-971225-patched/process.c
---- ruby-1.0-971225/process.c	1997-09-24 03:19:14.000000000 +0200
-+++ ruby-1.0-971225-patched/process.c	2012-12-20 12:19:37.148950097 +0100
+diff -r -u ruby-1.0-971225/process.c ruby-1.0-971225-patched/process.c
+--- ruby-1.0-971225/process.c	1997-09-24 11:19:14.000000000 +1000
++++ ruby-1.0-971225-patched/process.c	2012-12-20 22:59:01.000000000 +1100
 @@ -11,6 +11,7 @@
  ************************************************/
  
@@ -585,9 +666,9 @@ diff -u ruby-1.0-971225/process.c ruby-1.0-971225-patched/process.c
  #include "sig.h"
  #include <stdio.h>
  #include <errno.h>
-diff -u ruby-1.0-971225/re.c ruby-1.0-971225-patched/re.c
---- ruby-1.0-971225/re.c	1997-08-27 04:10:15.000000000 +0200
-+++ ruby-1.0-971225-patched/re.c	2012-12-20 12:20:37.524978687 +0100
+diff -r -u ruby-1.0-971225/re.c ruby-1.0-971225-patched/re.c
+--- ruby-1.0-971225/re.c	1997-08-27 12:10:15.000000000 +1000
++++ ruby-1.0-971225-patched/re.c	2012-12-20 22:59:01.000000000 +1100
 @@ -12,6 +12,7 @@
  
  #include "ruby.h"
@@ -596,9 +677,9 @@ diff -u ruby-1.0-971225/re.c ruby-1.0-971225-patched/re.c
  
  static VALUE eRegxpError;
  
-diff -u ruby-1.0-971225/regex.c ruby-1.0-971225-patched/regex.c
---- ruby-1.0-971225/regex.c	1997-11-18 05:49:01.000000000 +0100
-+++ ruby-1.0-971225-patched/regex.c	2012-12-20 12:21:20.829978332 +0100
+diff -r -u ruby-1.0-971225/regex.c ruby-1.0-971225-patched/regex.c
+--- ruby-1.0-971225/regex.c	1997-11-18 15:49:01.000000000 +1100
++++ ruby-1.0-971225-patched/regex.c	2012-12-20 22:59:01.000000000 +1100
 @@ -27,6 +27,8 @@
  
  /* We write fatal error messages on standard error.  */
@@ -608,9 +689,9 @@ diff -u ruby-1.0-971225/regex.c ruby-1.0-971225-patched/regex.c
  
  /* isalpha(3) etc. are used for the character classes.  */
  #include <ctype.h>
-diff -u ruby-1.0-971225/ruby.c ruby-1.0-971225-patched/ruby.c
---- ruby-1.0-971225/ruby.c	1997-10-21 06:23:34.000000000 +0200
-+++ ruby-1.0-971225-patched/ruby.c	2012-12-20 12:21:31.660976603 +0100
+diff -r -u ruby-1.0-971225/ruby.c ruby-1.0-971225-patched/ruby.c
+--- ruby-1.0-971225/ruby.c	1997-10-21 14:23:34.000000000 +1000
++++ ruby-1.0-971225-patched/ruby.c	2012-12-20 22:59:01.000000000 +1100
 @@ -36,7 +36,6 @@
  static int sflag = FALSE;
  
@@ -619,9 +700,9 @@ diff -u ruby-1.0-971225/ruby.c ruby-1.0-971225-patched/ruby.c
  
  extern char *sourcefile;
  extern int yydebug;
-diff -u ruby-1.0-971225/ruby.h ruby-1.0-971225-patched/ruby.h
---- ruby-1.0-971225/ruby.h	1997-09-03 10:32:14.000000000 +0200
-+++ ruby-1.0-971225-patched/ruby.h	2012-12-20 12:00:54.297979601 +0100
+diff -r -u ruby-1.0-971225/ruby.h ruby-1.0-971225-patched/ruby.h
+--- ruby-1.0-971225/ruby.h	1997-09-03 18:32:14.000000000 +1000
++++ ruby-1.0-971225-patched/ruby.h	2012-12-20 22:59:01.000000000 +1100
 @@ -324,8 +324,8 @@
  int rb_method_boundp _((VALUE,ID,int));
  
@@ -671,10 +752,9 @@ diff -u ruby-1.0-971225/ruby.h ruby-1.0-971225-patched/ruby.h
  
  #if defined(EXTLIB) && defined(USE_DLN_A_OUT)
  /* hook for external modules */
-Common subdirectories: ruby-1.0-971225/sample and ruby-1.0-971225-patched/sample
-diff -u ruby-1.0-971225/sprintf.c ruby-1.0-971225-patched/sprintf.c
---- ruby-1.0-971225/sprintf.c	1997-08-26 02:54:41.000000000 +0200
-+++ ruby-1.0-971225-patched/sprintf.c	2012-12-20 12:22:01.757950832 +0100
+diff -r -u ruby-1.0-971225/sprintf.c ruby-1.0-971225-patched/sprintf.c
+--- ruby-1.0-971225/sprintf.c	1997-08-26 10:54:41.000000000 +1000
++++ ruby-1.0-971225-patched/sprintf.c	2012-12-20 22:59:01.000000000 +1100
 @@ -12,6 +12,8 @@
  
  #include "ruby.h"
@@ -684,9 +764,9 @@ diff -u ruby-1.0-971225/sprintf.c ruby-1.0-971225-patched/sprintf.c
  
  static void fmt_setup();
  
-diff -u ruby-1.0-971225/st.c ruby-1.0-971225-patched/st.c
---- ruby-1.0-971225/st.c	1997-12-22 15:19:42.000000000 +0100
-+++ ruby-1.0-971225-patched/st.c	2012-12-20 12:22:13.877962037 +0100
+diff -r -u ruby-1.0-971225/st.c ruby-1.0-971225-patched/st.c
+--- ruby-1.0-971225/st.c	1997-12-23 01:19:42.000000000 +1100
++++ ruby-1.0-971225-patched/st.c	2012-12-20 22:59:01.000000000 +1100
 @@ -4,6 +4,7 @@
  
  #include "config.h"
@@ -695,9 +775,9 @@ diff -u ruby-1.0-971225/st.c ruby-1.0-971225-patched/st.c
  #include "st.h"
  
  #define ST_DEFAULT_MAX_DENSITY 5
-diff -u ruby-1.0-971225/string.c ruby-1.0-971225-patched/string.c
---- ruby-1.0-971225/string.c	1997-12-09 02:18:11.000000000 +0100
-+++ ruby-1.0-971225-patched/string.c	2012-12-20 12:22:38.892979022 +0100
+diff -r -u ruby-1.0-971225/string.c ruby-1.0-971225-patched/string.c
+--- ruby-1.0-971225/string.c	1997-12-09 12:18:11.000000000 +1100
++++ ruby-1.0-971225-patched/string.c	2012-12-20 22:59:01.000000000 +1100
 @@ -17,6 +17,7 @@
  #define END(no) regs->end[no]
  
@@ -706,9 +786,9 @@ diff -u ruby-1.0-971225/string.c ruby-1.0-971225-patched/string.c
  #include <ctype.h>
  
  VALUE cString;
-diff -u ruby-1.0-971225/struct.c ruby-1.0-971225-patched/struct.c
---- ruby-1.0-971225/struct.c	1997-10-03 03:50:40.000000000 +0200
-+++ ruby-1.0-971225-patched/struct.c	2012-12-20 12:24:46.649960069 +0100
+diff -r -u ruby-1.0-971225/struct.c ruby-1.0-971225-patched/struct.c
+--- ruby-1.0-971225/struct.c	1997-10-03 11:50:40.000000000 +1000
++++ ruby-1.0-971225-patched/struct.c	2012-12-20 22:59:01.000000000 +1100
 @@ -9,6 +9,8 @@
  ************************************************/
  
@@ -762,9 +842,9 @@ diff -u ruby-1.0-971225/struct.c ruby-1.0-971225-patched/struct.c
      while (size--) {
  	val = va_arg(args, VALUE);
  	ary_push(mem, val);
-diff -u ruby-1.0-971225/variable.c ruby-1.0-971225-patched/variable.c
---- ruby-1.0-971225/variable.c	1997-09-07 23:29:02.000000000 +0200
-+++ ruby-1.0-971225-patched/variable.c	2012-12-20 12:25:12.664973772 +0100
+diff -r -u ruby-1.0-971225/variable.c ruby-1.0-971225-patched/variable.c
+--- ruby-1.0-971225/variable.c	1997-09-08 07:29:02.000000000 +1000
++++ ruby-1.0-971225-patched/variable.c	2012-12-20 22:59:01.000000000 +1100
 @@ -12,6 +12,7 @@
  #include "env.h"
  #include "node.h"
@@ -773,5 +853,3 @@ diff -u ruby-1.0-971225/variable.c ruby-1.0-971225-patched/variable.c
  
  #ifdef HAVE_STRING_H
  # include <string.h>
-Common subdirectories: ruby-1.0-971225/win32 and ruby-1.0-971225-patched/win32
-Common subdirectories: ruby-1.0-971225/x68 and ruby-1.0-971225-patched/x68
