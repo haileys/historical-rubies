@@ -375,6 +375,32 @@ diff -r -u ruby-1.0-971225/ext/dbm/dbm.c ruby-1.0-971225-patched/ext/dbm/dbm.c
  
  VALUE cDBM;
  
+diff -r -u ruby-1.0-971225/ext/extmk.rb.in ruby-1.0-971225-patched/ext/extmk.rb.in
+--- ruby-1.0-971225/ext/extmk.rb.in	1997-11-27 16:28:54.000000000 +1100
++++ ruby-1.0-971225-patched/ext/extmk.rb.in	2012-12-20 23:21:10.000000000 +1100
+@@ -207,6 +207,13 @@
+ 
+   $srcdir = $topdir + "/ext/" + target
+   mfile = open("Makefile", "w")
++  
++  if `uname` == "Darwin\n"
++    additional_dldflags = "-undefined dynamic_lookup"
++  else
++    additional_dldflags = ""
++  end
++  
+   mfile.printf "\
+ SHELL = /bin/sh
+ 
+@@ -218,7 +225,7 @@
+ CC = @CC@
+ 
+ CFLAGS   = %s -I#{$topdir} %s #$CFLAGS %s
+-DLDFLAGS = @DLDFLAGS@ #$LDFLAGS
++DLDFLAGS = @DLDFLAGS@ #$LDFLAGS #{additional_dldflags}
+ LDSHARED = @LDSHARED@
+ ", if $static then "" else "@CCDLFLAGS@" end, CFLAGS, $defs.join(" ")
+ 
 diff -r -u ruby-1.0-971225/ext/marshal/marshal.c ruby-1.0-971225-patched/ext/marshal/marshal.c
 --- ruby-1.0-971225/ext/marshal/marshal.c	1997-12-18 17:18:41.000000000 +1100
 +++ ruby-1.0-971225-patched/ext/marshal/marshal.c	2012-12-20 23:12:59.000000000 +1100
