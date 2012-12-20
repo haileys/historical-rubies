@@ -2,7 +2,7 @@
 
 ## What is this?
 
-This is a set of matches maintained by me, [Charlie Somerville](http://github.com/charliesome), that fix up old versions of Ruby so they compile and run on modern systems.
+This is a set of patches maintained by me, [Charlie Somerville](http://github.com/charliesome), that fix up old versions of Ruby so they compile and run on modern systems.
 
 ## What platforms are supported?
 
