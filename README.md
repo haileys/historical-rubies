@@ -34,6 +34,8 @@ Happy patching!
 
 The `configure` script distributed with this Ruby version is too old to guess your particular system. You must explicitly tell it your system type with the `--host` flag.
 
+If you do not know your host triple, you can leave it blank by specifying `--host=`.
+
 ### warning: cast to pointer from integer of different size
 
 Older versions of Ruby are not very 64 bit friendly. Try adding `-m32` to your `CFLAGS`.
