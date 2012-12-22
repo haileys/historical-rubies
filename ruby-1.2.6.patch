@@ -1,0 +1,39 @@
+diff -r -u ruby-1.2.6/error.c ruby-1.2.6-patched/error.c
+--- ruby-1.2.6/error.c	1999-02-09 14:29:21.000000000 +1100
++++ ruby-1.2.6-patched/error.c	2012-12-22 23:26:00.000000000 +1100
+@@ -466,10 +466,6 @@
+ static VALUE *syserr_list;
+ #endif
+ 
+-#ifndef NT
+-extern int sys_nerr;
+-#endif
+-
+ static VALUE
+ set_syserr(i, name)
+     int i;
+diff -r -u ruby-1.2.6/ext/extmk.rb.in ruby-1.2.6-patched/ext/extmk.rb.in
+--- ruby-1.2.6/ext/extmk.rb.in	1999-04-13 15:54:26.000000000 +1000
++++ ruby-1.2.6-patched/ext/extmk.rb.in	2012-12-22 23:32:15.000000000 +1100
+@@ -264,6 +264,10 @@
+     $DLDFLAGS = $DLDFLAGS + " -L" + $topdir
+   end
+ 
++  if `uname` == "Darwin\n"
++    additional_dld_flags="-undefined dynamic_lookup"
++  end
++
+   $srcdir = $top_srcdir + "/ext/" + target
+   mfile = open("Makefile", "w")
+   mfile.printf "\
+@@ -280,7 +284,7 @@
+ 
+ prefix = @prefix@
+ CFLAGS   = %s -I#{$topdir} -I#{$top_srcdir} -I@includedir@ %s #$CFLAGS %s
+-DLDFLAGS = #$DLDFLAGS #$LDFLAGS
++DLDFLAGS = #$DLDFLAGS #$LDFLAGS #{additional_dld_flags}
+ LDSHARED = @LDSHARED@
+ ", if $static then "" else "@CCDLFLAGS@" end, CFLAGS, $defs.join(" ")
+ 
+Only in ruby-1.2.6: lex.c
+Only in ruby-1.2.6: parse.c
