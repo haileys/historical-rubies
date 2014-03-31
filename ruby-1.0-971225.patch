@@ -1,6 +1,7 @@
-diff -r -u ruby-1.0-971225/array.c ruby-1.0-971225-patched/array.c
---- ruby-1.0-971225/array.c	1997-10-22 13:52:12.000000000 +1000
-+++ ruby-1.0-971225-patched/array.c	2012-12-20 22:59:01.000000000 +1100
+diff --git array.c array.c
+index 28ea06f..e62cff1 100644
+--- array.c
++++ array.c
 @@ -11,6 +11,7 @@
  ************************************************/
  
@@ -9,7 +10,7 @@ diff -r -u ruby-1.0-971225/array.c ruby-1.0-971225-patched/array.c
  
  VALUE cArray;
  
-@@ -82,12 +83,10 @@
+@@ -82,12 +83,10 @@ ary_new()
      return ary_new2(ARY_DEFAULT_SIZE);
  }
  
@@ -24,7 +25,7 @@ diff -r -u ruby-1.0-971225/array.c ruby-1.0-971225-patched/array.c
  {
      va_list ar;
      struct RArray* ary;
-@@ -98,7 +97,7 @@
+@@ -98,7 +97,7 @@ ary_new3(n, va_alist)
      }
      ary = (struct RArray*)ary_new2(n<ARY_DEFAULT_SIZE?ARY_DEFAULT_SIZE:n);
  
@@ -33,9 +34,10 @@ diff -r -u ruby-1.0-971225/array.c ruby-1.0-971225-patched/array.c
      for (i=0; i<n; i++) {
  	ary->ptr[i] = va_arg(ar, VALUE);
      }
-diff -r -u ruby-1.0-971225/bignum.c ruby-1.0-971225-patched/bignum.c
---- ruby-1.0-971225/bignum.c	1997-10-21 14:31:05.000000000 +1000
-+++ ruby-1.0-971225-patched/bignum.c	2012-12-20 22:59:01.000000000 +1100
+diff --git bignum.c bignum.c
+index 4bdcb6b..a51e205 100644
+--- bignum.c
++++ bignum.c
 @@ -11,6 +11,7 @@
  #include "ruby.h"
  #include <ctype.h>
@@ -44,9 +46,10 @@ diff -r -u ruby-1.0-971225/bignum.c ruby-1.0-971225-patched/bignum.c
  
  extern VALUE cInteger;
  VALUE cBignum;
-diff -r -u ruby-1.0-971225/class.c ruby-1.0-971225-patched/class.c
---- ruby-1.0-971225/class.c	1997-09-03 18:32:12.000000000 +1000
-+++ ruby-1.0-971225-patched/class.c	2012-12-20 22:59:01.000000000 +1100
+diff --git class.c class.c
+index 6cb55fa..42b2b66 100644
+--- class.c
++++ class.c
 @@ -13,6 +13,8 @@
  #include "ruby.h"
  #include "node.h"
@@ -56,7 +59,7 @@ diff -r -u ruby-1.0-971225/class.c ruby-1.0-971225-patched/class.c
  
  struct st_table *new_idhash();
  extern st_table *rb_class_tbl;
-@@ -349,22 +351,18 @@
+@@ -349,22 +351,18 @@ rb_define_attr(class, id, pub)
      }
  }
  
@@ -82,9 +85,154 @@ diff -r -u ruby-1.0-971225/class.c ruby-1.0-971225-patched/class.c
  
      if (*p == '*') {
  	var = va_arg(vargs, VALUE*);
-diff -r -u ruby-1.0-971225/dir.c ruby-1.0-971225-patched/dir.c
---- ruby-1.0-971225/dir.c	1997-10-24 16:05:09.000000000 +1000
-+++ ruby-1.0-971225-patched/dir.c	2012-12-20 22:59:01.000000000 +1100
+diff --git configure configure
+index dd18efc..5ebf60a 100755
+--- configure
++++ configure
+@@ -1,7 +1,9 @@
+ #! /bin/sh
+ 
++export CFLAGS="-m32"
++
+ # Guess values for system-dependent variables and create Makefiles.
+-# Generated automatically using autoconf version 2.12 
++# Generated automatically using autoconf version 2.12
+ # Copyright (C) 1992, 93, 94, 95, 96 Free Software Foundation, Inc.
+ #
+ # This configure script is free software; the Free Software Foundation
+@@ -532,7 +534,7 @@ fi
+ # Check whether --with-gcc or --without-gcc was given.
+ if test "${with_gcc+set}" = set; then
+   withval="$with_gcc"
+-  
++
+ 	case $withval in
+ 	no)	CC=cc
+ 		without_gcc=yes;;
+@@ -555,7 +557,7 @@ rb_thread=yes
+ # Check whether --enable-thread or --disable-thread was given.
+ if test "${enable_thread+set}" = set; then
+   enableval="$enable_thread"
+-  
++
+ 	rb_thread=$enableval
+ 
+ fi
+@@ -600,9 +602,8 @@ case "$host_alias" in
+ NONE)
+   case $nonopt in
+   NONE)
+-    if host_alias=`$ac_config_guess`; then :
+-    else { echo "configure: error: can not guess host type; you must specify one" 1>&2; exit 1; }
+-    fi ;;
++    host_alias=""
++  ;;
+   *) host_alias=$nonopt ;;
+   esac ;;
+ esac
+@@ -619,7 +620,7 @@ fat_binary=no
+ # Check whether --enable-fat-binary or --disable-fat-binary was given.
+ if test "${enable_fat_binary+set}" = set; then
+   enableval="$enable_fat_binary"
+-   fat_binary=$enableval  
++   fat_binary=$enableval
+ fi
+ 
+ if test "$fat_binary" = yes ; then
+@@ -635,7 +636,7 @@ echo "configure:629: checking target architecture " >&5
+         fi
+     fi
+     # /usr/lib/arch_tool -archify_list $TARGET_ARCHS
+-    for archs in $TARGET_ARCHS 
++    for archs in $TARGET_ARCHS
+     do
+         ARCH_FLAG="$ARCH_FLAG -arch $archs "
+         echo -n " $archs"
+@@ -645,7 +646,7 @@ echo "configure:629: checking target architecture " >&5
+ EOF
+ 
+     echo "."
+-fi 
++fi
+ 
+ 
+ if test "$program_transform_name" = s,x,x,; then
+@@ -1595,7 +1596,7 @@ if eval "test \"`echo '$ac_cv_header_'$ac_safe`\" = yes"; then
+   cat >> confdefs.h <<EOF
+ #define $ac_tr_hdr 1
+ EOF
+- 
++
+ else
+   echo "$ac_t""no" 1>&6
+ fi
+@@ -2566,7 +2567,7 @@ if eval "test \"`echo '$ac_cv_func_'$ac_func`\" = yes"; then
+   cat >> confdefs.h <<EOF
+ #define $ac_tr_func 1
+ EOF
+- 
++
+ else
+   echo "$ac_t""no" 1>&6
+ LIBOBJS="$LIBOBJS ${ac_func}.o"
+@@ -2627,7 +2628,7 @@ if eval "test \"`echo '$ac_cv_func_'$ac_func`\" = yes"; then
+   cat >> confdefs.h <<EOF
+ #define $ac_tr_func 1
+ EOF
+- 
++
+ else
+   echo "$ac_t""no" 1>&6
+ fi
+@@ -3238,7 +3239,7 @@ fi
+ # Check whether --with-dln-a-out or --without-dln-a-out was given.
+ if test "${with_dln_a_out+set}" = set; then
+   withval="$with_dln_a_out"
+-  
++
+ 	case $withval in
+ 	yes) with_dln_a_out=yes;;
+ 	*)   with_dln_a_out=no;;
+@@ -3351,7 +3352,7 @@ echo "configure:3313: checking whether OS depend dynamic link works" >&5
+ 			rb_cv_dlopen=yes ;;
+ 	nextstep*)	LDSHARED='cc -r'
+ 			LDFLAGS="-u libsys_s"
+-			DLDFLAGS="$ARCH_FLAG" 
++			DLDFLAGS="$ARCH_FLAG"
+ 			rb_cv_dlopen=yes ;;
+ 	aix*)		LDSHARED='../../miniruby ../aix_ld.rb $(TARGET)'
+ 			rb_cv_dlopen=yes ;;
+@@ -3608,7 +3609,7 @@ if eval "test \"`echo '$ac_cv_func_'$ac_func`\" = yes"; then
+   cat >> confdefs.h <<EOF
+ #define $ac_tr_func 1
+ EOF
+- 
++
+ else
+   echo "$ac_t""no" 1>&6
+ fi
+@@ -3729,7 +3730,7 @@ if test "$fat_binary" = yes ; then
+     arch="fat-${host_os}"
+ 
+     cat >> confdefs.h <<EOF
+-#define RUBY_THIN_ARCHLIB "${prefix}/lib/ruby/" __ARCHITECTURE__ "-${host_os}" 
++#define RUBY_THIN_ARCHLIB "${prefix}/lib/ruby/" __ARCHITECTURE__ "-${host_os}"
+ EOF
+ 
+ 
+@@ -3738,7 +3739,7 @@ EOF
+ EOF
+ 
+     cat >> confdefs.h <<EOF
+-#define RUBY_PLATFORM __ARCHITECTURE__ "-${host_os}" 
++#define RUBY_PLATFORM __ARCHITECTURE__ "-${host_os}"
+ EOF
+ 
+ else
+diff --git dir.c dir.c
+index ca2ca21..0f01b39 100644
+--- dir.c
++++ dir.c
 @@ -11,6 +11,7 @@
  ************************************************/
  
@@ -93,10 +241,11 @@ diff -r -u ruby-1.0-971225/dir.c ruby-1.0-971225-patched/dir.c
  
  #include <sys/types.h>
  #ifdef HAVE_UNISTD_H
-diff -r -u ruby-1.0-971225/dln.c ruby-1.0-971225-patched/dln.c
---- ruby-1.0-971225/dln.c	1997-09-24 11:19:14.000000000 +1000
-+++ ruby-1.0-971225-patched/dln.c	2012-12-20 22:59:01.000000000 +1100
-@@ -54,7 +54,7 @@
+diff --git dln.c dln.c
+index ee5429a..5a9657f 100644
+--- dln.c
++++ dln.c
+@@ -54,7 +54,7 @@ void *xrealloc();
  #endif
  
  #ifndef NT
@@ -105,10 +254,11 @@ diff -r -u ruby-1.0-971225/dln.c ruby-1.0-971225-patched/dln.c
  
  char *getenv();
  #endif
-diff -r -u ruby-1.0-971225/enum.c ruby-1.0-971225-patched/enum.c
---- ruby-1.0-971225/enum.c	1997-09-19 18:20:57.000000000 +1000
-+++ ruby-1.0-971225-patched/enum.c	2012-12-20 22:59:01.000000000 +1100
-@@ -78,7 +78,7 @@
+diff --git enum.c enum.c
+index 63ef9e9..6e45ff8 100644
+--- enum.c
++++ enum.c
+@@ -78,7 +78,7 @@ find_i(i, arg)
  static VALUE
  enum_find(argc, argv, obj)
      int argc;
@@ -117,9 +267,10 @@ diff -r -u ruby-1.0-971225/enum.c ruby-1.0-971225-patched/enum.c
      VALUE obj;
  {
      struct find_arg arg;
-diff -r -u ruby-1.0-971225/error.c ruby-1.0-971225-patched/error.c
---- ruby-1.0-971225/error.c	1997-10-07 14:30:38.000000000 +1000
-+++ ruby-1.0-971225-patched/error.c	2012-12-20 22:59:38.000000000 +1100
+diff --git error.c error.c
+index 3427310..556480c 100644
+--- error.c
++++ error.c
 @@ -13,7 +13,8 @@
  #include "ruby.h"
  #include "env.h"
@@ -130,7 +281,7 @@ diff -r -u ruby-1.0-971225/error.c ruby-1.0-971225-patched/error.c
  
  extern char *sourcefile;
  extern int   sourceline;
-@@ -68,36 +69,30 @@
+@@ -68,36 +69,30 @@ err_print(fmt, args)
  }
  
  void
@@ -172,7 +323,7 @@ diff -r -u ruby-1.0-971225/error.c ruby-1.0-971225-patched/error.c
  {
      char buf[BUFSIZ];
      va_list args;
-@@ -106,15 +101,13 @@
+@@ -106,15 +101,13 @@ Warning(fmt, va_alist)
  
      sprintf(buf, "warning: %s", fmt);
  
@@ -190,7 +341,7 @@ diff -r -u ruby-1.0-971225/error.c ruby-1.0-971225-patched/error.c
  {
      char buf[BUFSIZ];
      va_list args;
-@@ -122,7 +115,7 @@
+@@ -122,7 +115,7 @@ Bug(fmt, va_alist)
      sprintf(buf, "[BUG] %s", fmt);
      rb_in_eval = 0;
  
@@ -199,7 +350,7 @@ diff -r -u ruby-1.0-971225/error.c ruby-1.0-971225-patched/error.c
      err_print(buf, args);
      va_end(args);
      abort();
-@@ -156,7 +149,7 @@
+@@ -156,7 +149,7 @@ static struct types {
      -1,		0,
  };
  
@@ -208,7 +359,7 @@ diff -r -u ruby-1.0-971225/error.c ruby-1.0-971225-patched/error.c
  
  void
  rb_check_type(x, t)
-@@ -267,7 +260,7 @@
+@@ -267,7 +260,7 @@ exception(argc, argv)
      int argc;
      VALUE *argv;
  {
@@ -217,7 +368,7 @@ diff -r -u ruby-1.0-971225/error.c ruby-1.0-971225-patched/error.c
      VALUE v = Qnil;
      int i;
      ID id;
-@@ -292,10 +285,6 @@
+@@ -292,10 +285,6 @@ exception(argc, argv)
  
  static VALUE *syserr_list;
  
@@ -228,7 +379,7 @@ diff -r -u ruby-1.0-971225/error.c ruby-1.0-971225-patched/error.c
  static void
  set_syserr(i, name)
      int i;
-@@ -341,7 +330,7 @@
+@@ -341,7 +330,7 @@ Init_Exception()
      va_list args;\
      char buf[BUFSIZ];\
  \
@@ -237,7 +388,7 @@ diff -r -u ruby-1.0-971225/error.c ruby-1.0-971225-patched/error.c
      vsprintf(buf, fmt, args);\
      va_end(args);\
  \
-@@ -349,50 +338,37 @@
+@@ -349,50 +338,37 @@ Init_Exception()
  }
  
  void
@@ -294,7 +445,7 @@ diff -r -u ruby-1.0-971225/error.c ruby-1.0-971225-patched/error.c
  {
      RAISE_ERROR(eRuntimeError);
  }
-@@ -403,25 +379,22 @@
+@@ -403,25 +379,22 @@ rb_notimplement()
      Raise(eNotImpError,
  	  "The %s() function is unimplemented on this machine",
  	  rb_id2name(the_frame->last_func));
@@ -324,10 +475,20 @@ diff -r -u ruby-1.0-971225/error.c ruby-1.0-971225-patched/error.c
      vsprintf(buf, fmt, args);
      va_end(args);
  
-diff -r -u ruby-1.0-971225/eval.c ruby-1.0-971225-patched/eval.c
---- ruby-1.0-971225/eval.c	1997-12-08 15:05:20.000000000 +1100
-+++ ruby-1.0-971225-patched/eval.c	2012-12-20 22:59:01.000000000 +1100
-@@ -3144,14 +3144,10 @@
+diff --git eval.c eval.c
+index 1e10ee2..b042b68 100644
+--- eval.c
++++ eval.c
+@@ -2243,7 +2243,7 @@ f_retry()
+ }
+ 
+ #ifdef __GNUC__
+-static volatile voidfn rb_longjmp;
++static void rb_longjmp();
+ #endif
+ 
+ static VALUE make_backtrace();
+@@ -3144,14 +3144,10 @@ f_send(argc, argv, recv)
      return vid;
  }
  
@@ -344,7 +505,7 @@ diff -r -u ruby-1.0-971225/eval.c ruby-1.0-971225-patched/eval.c
  {
      va_list ar;
      VALUE *argv;
-@@ -3161,7 +3157,7 @@
+@@ -3161,7 +3157,7 @@ rb_funcall(recv, mid, n, va_alist)
  
  	argv = ALLOCA_N(VALUE, n);
  
@@ -353,9 +514,19 @@ diff -r -u ruby-1.0-971225/eval.c ruby-1.0-971225-patched/eval.c
  	for (i=0;i<n;i++) {
  	    argv[i] = va_arg(ar, VALUE);
  	}
-diff -r -u ruby-1.0-971225/ext/curses/curses.c ruby-1.0-971225-patched/ext/curses/curses.c
---- ruby-1.0-971225/ext/curses/curses.c	1997-11-27 16:20:24.000000000 +1100
-+++ ruby-1.0-971225-patched/ext/curses/curses.c	2012-12-20 23:14:31.000000000 +1100
+@@ -4969,6 +4965,8 @@ thread_stop()
+     return Qnil;
+ }
+ 
++struct timeval time_timeval();
++
+ void
+ thread_sleep(sec)
+     int sec;
+diff --git ext/curses/curses.c ext/curses/curses.c
+index 6e8e496..b8261f2 100644
+--- ext/curses/curses.c
++++ ext/curses/curses.c
 @@ -22,6 +22,7 @@
  #endif
  
@@ -364,9 +535,10 @@ diff -r -u ruby-1.0-971225/ext/curses/curses.c ruby-1.0-971225-patched/ext/curse
  
  static VALUE mCurses;
  static VALUE cWindow;
-diff -r -u ruby-1.0-971225/ext/dbm/dbm.c ruby-1.0-971225-patched/ext/dbm/dbm.c
---- ruby-1.0-971225/ext/dbm/dbm.c	1997-11-19 13:10:32.000000000 +1100
-+++ ruby-1.0-971225-patched/ext/dbm/dbm.c	2012-12-20 23:14:21.000000000 +1100
+diff --git ext/dbm/dbm.c ext/dbm/dbm.c
+index 5107aab..6e8f6e4 100644
+--- ext/dbm/dbm.c
++++ ext/dbm/dbm.c
 @@ -15,6 +15,7 @@
  #include <ndbm.h>
  #include <fcntl.h>
@@ -375,10 +547,11 @@ diff -r -u ruby-1.0-971225/ext/dbm/dbm.c ruby-1.0-971225-patched/ext/dbm/dbm.c
  
  VALUE cDBM;
  
-diff -r -u ruby-1.0-971225/ext/extmk.rb.in ruby-1.0-971225-patched/ext/extmk.rb.in
---- ruby-1.0-971225/ext/extmk.rb.in	1997-11-27 16:28:54.000000000 +1100
-+++ ruby-1.0-971225-patched/ext/extmk.rb.in	2012-12-20 23:21:10.000000000 +1100
-@@ -207,6 +207,13 @@
+diff --git ext/extmk.rb.in ext/extmk.rb.in
+index 78fe307..a2ad6f0 100644
+--- ext/extmk.rb.in
++++ ext/extmk.rb.in
+@@ -207,6 +207,13 @@ def create_makefile(target)
  
    $srcdir = $topdir + "/ext/" + target
    mfile = open("Makefile", "w")
@@ -392,7 +565,7 @@ diff -r -u ruby-1.0-971225/ext/extmk.rb.in ruby-1.0-971225-patched/ext/extmk.rb.
    mfile.printf "\
  SHELL = /bin/sh
  
-@@ -218,7 +225,7 @@
+@@ -218,7 +225,7 @@ VPATH = #{$srcdir}
  CC = @CC@
  
  CFLAGS   = %s -I#{$topdir} %s #$CFLAGS %s
@@ -401,9 +574,10 @@ diff -r -u ruby-1.0-971225/ext/extmk.rb.in ruby-1.0-971225-patched/ext/extmk.rb.
  LDSHARED = @LDSHARED@
  ", if $static then "" else "@CCDLFLAGS@" end, CFLAGS, $defs.join(" ")
  
-diff -r -u ruby-1.0-971225/ext/marshal/marshal.c ruby-1.0-971225-patched/ext/marshal/marshal.c
---- ruby-1.0-971225/ext/marshal/marshal.c	1997-12-18 17:18:41.000000000 +1100
-+++ ruby-1.0-971225-patched/ext/marshal/marshal.c	2012-12-20 23:12:59.000000000 +1100
+diff --git ext/marshal/marshal.c ext/marshal/marshal.c
+index 99e87d0..c24254f 100644
+--- ext/marshal/marshal.c
++++ ext/marshal/marshal.c
 @@ -12,6 +12,7 @@
  #include "ruby.h"
  #include "io.h"
@@ -412,7 +586,7 @@ diff -r -u ruby-1.0-971225/ext/marshal/marshal.c ruby-1.0-971225-patched/ext/mar
  
  #define MARSHAL_MAJOR   4
  #define MARSHAL_MINOR   0
-@@ -398,7 +399,7 @@
+@@ -398,7 +399,7 @@ dump_ensure(arg)
  static VALUE
  marshal_dump(argc, argv)
      int argc;
@@ -421,9 +595,10 @@ diff -r -u ruby-1.0-971225/ext/marshal/marshal.c ruby-1.0-971225-patched/ext/mar
  {
      VALUE obj, port, a1, a2;
      int limit = -1;
-diff -r -u ruby-1.0-971225/ext/md5/md5init.c ruby-1.0-971225-patched/ext/md5/md5init.c
---- ruby-1.0-971225/ext/md5/md5init.c	1997-02-10 02:36:29.000000000 +1100
-+++ ruby-1.0-971225-patched/ext/md5/md5init.c	2012-12-20 23:14:01.000000000 +1100
+diff --git ext/md5/md5init.c ext/md5/md5init.c
+index 762d53e..791dd86 100644
+--- ext/md5/md5init.c
++++ ext/md5/md5init.c
 @@ -15,6 +15,7 @@
  
  #include "ruby.h"
@@ -432,7 +607,7 @@ diff -r -u ruby-1.0-971225/ext/md5/md5init.c ruby-1.0-971225-patched/ext/md5/md5
  
  static VALUE cMD5;
  
-@@ -60,7 +61,7 @@
+@@ -60,7 +61,7 @@ md5_clone(obj)
  }
  
  static VALUE
@@ -441,9 +616,10 @@ diff -r -u ruby-1.0-971225/ext/md5/md5init.c ruby-1.0-971225-patched/ext/md5/md5
  {
      int i;
      VALUE arg, obj;
-diff -r -u ruby-1.0-971225/ext/socket/socket.c ruby-1.0-971225-patched/ext/socket/socket.c
---- ruby-1.0-971225/ext/socket/socket.c	1997-09-11 16:13:30.000000000 +1000
-+++ ruby-1.0-971225-patched/ext/socket/socket.c	2012-12-20 23:13:23.000000000 +1100
+diff --git ext/socket/socket.c ext/socket/socket.c
+index be9118d..b1be0d9 100644
+--- ext/socket/socket.c
++++ ext/socket/socket.c
 @@ -16,6 +16,7 @@
  #include <netinet/in.h>
  #include <netdb.h>
@@ -452,10 +628,11 @@ diff -r -u ruby-1.0-971225/ext/socket/socket.c ruby-1.0-971225-patched/ext/socke
  #ifdef HAVE_SYS_UN_H
  #include <sys/un.h>
  #endif
-diff -r -u ruby-1.0-971225/file.c ruby-1.0-971225-patched/file.c
---- ruby-1.0-971225/file.c	1997-10-20 12:09:34.000000000 +1000
-+++ ruby-1.0-971225-patched/file.c	2012-12-20 22:59:01.000000000 +1100
-@@ -53,8 +53,8 @@
+diff --git file.c file.c
+index db21a35..f272ac5 100644
+--- file.c
++++ file.c
+@@ -53,8 +53,8 @@ char *strrchr();
  #endif
  
  #ifndef NT
@@ -466,7 +643,7 @@ diff -r -u ruby-1.0-971225/file.c ruby-1.0-971225-patched/file.c
  #endif
  
  extern VALUE cIO;
-@@ -1229,7 +1229,7 @@
+@@ -1229,7 +1229,7 @@ file_s_expand_path(obj, fname)
      struct RString *fname;
  {
      char *s, *p;
@@ -475,7 +652,7 @@ diff -r -u ruby-1.0-971225/file.c ruby-1.0-971225-patched/file.c
  
      Check_Type(fname, T_STRING);
      s = fname->ptr;
-@@ -1270,7 +1270,7 @@
+@@ -1270,7 +1270,7 @@ file_s_expand_path(obj, fname)
      }
      else if (s[0] != '/') {
  #ifdef HAVE_GETCWD
@@ -484,9 +661,10 @@ diff -r -u ruby-1.0-971225/file.c ruby-1.0-971225-patched/file.c
  #else
  	getwd(buf);
  #endif
-diff -r -u ruby-1.0-971225/gc.c ruby-1.0-971225-patched/gc.c
---- ruby-1.0-971225/gc.c	1997-11-05 15:26:59.000000000 +1100
-+++ ruby-1.0-971225-patched/gc.c	2012-12-20 22:59:01.000000000 +1100
+diff --git gc.c gc.c
+index f356477..7773e5e 100644
+--- gc.c
++++ gc.c
 @@ -18,6 +18,7 @@
  #include "re.h"
  #include <stdio.h>
@@ -495,7 +673,7 @@ diff -r -u ruby-1.0-971225/gc.c ruby-1.0-971225-patched/gc.c
  
  #ifndef setjmp
  #ifdef HAVE__SETJMP
-@@ -718,29 +719,29 @@
+@@ -718,29 +719,29 @@ gc_mark_frame(frame)
  #if defined(__human68k__) || defined(DJGPP)
  #if defined(__human68k__)
  typedef unsigned long rb_jmp_buf[8];
@@ -545,9 +723,10 @@ diff -r -u ruby-1.0-971225/gc.c ruby-1.0-971225-patched/gc.c
  #endif
  #endif
  int rb_setjmp (rb_jmp_buf);
-diff -r -u ruby-1.0-971225/glob.c ruby-1.0-971225-patched/glob.c
---- ruby-1.0-971225/glob.c	1997-09-03 18:32:13.000000000 +1000
-+++ ruby-1.0-971225-patched/glob.c	2012-12-20 22:59:01.000000000 +1100
+diff --git glob.c glob.c
+index 6c355ad..71fe5c2 100644
+--- glob.c
++++ glob.c
 @@ -19,6 +19,9 @@
     Unix programs use to perform this function.  I wrote this from scratch
     based on specifications for the pattern matching.  --RMS.  */
@@ -571,9 +750,10 @@ diff -r -u ruby-1.0-971225/glob.c ruby-1.0-971225-patched/glob.c
  #endif
  
  #include "fnmatch.h"
-diff -r -u ruby-1.0-971225/io.c ruby-1.0-971225-patched/io.c
---- ruby-1.0-971225/io.c	1997-12-01 14:43:57.000000000 +1100
-+++ ruby-1.0-971225-patched/io.c	2012-12-20 22:59:01.000000000 +1100
+diff --git io.c io.c
+index d74337f..89db8d0 100644
+--- io.c
++++ io.c
 @@ -14,6 +14,7 @@
  #include "io.h"
  #include <ctype.h>
@@ -582,7 +762,7 @@ diff -r -u ruby-1.0-971225/io.c ruby-1.0-971225-patched/io.c
  
  #include <sys/types.h>
  #if !defined(DJGPP) && !defined(NT) && !defined(__human68k__)
-@@ -332,7 +333,7 @@
+@@ -332,7 +333,7 @@ static VALUE lineno;
  VALUE
  io_gets_method(argc, argv, io)
      int argc;
@@ -591,7 +771,7 @@ diff -r -u ruby-1.0-971225/io.c ruby-1.0-971225-patched/io.c
      VALUE io;
  {
      OpenFile *fptr;
-@@ -961,7 +962,7 @@
+@@ -961,7 +962,7 @@ pipe_open(pname, mode)
  	    rb_proc_exec(pname);
  	    fprintf(stderr, "%s:%d: command not found: %s\n",
  		    sourcefile, sourceline, pname);
@@ -600,7 +780,7 @@ diff -r -u ruby-1.0-971225/io.c ruby-1.0-971225-patched/io.c
  	}
  	return Qnil;
  
-@@ -1065,10 +1066,6 @@
+@@ -1065,10 +1066,6 @@ f_open(argc, argv, self)
      return io_open(RSTRING(pname)->ptr, mode);
  }
  
@@ -611,9 +791,10 @@ diff -r -u ruby-1.0-971225/io.c ruby-1.0-971225-patched/io.c
  VALUE
  io_reopen(io, nfile)
      VALUE io, nfile;
-diff -r -u ruby-1.0-971225/numeric.c ruby-1.0-971225-patched/numeric.c
---- ruby-1.0-971225/numeric.c	1997-09-08 11:28:48.000000000 +1000
-+++ ruby-1.0-971225-patched/numeric.c	2012-12-20 22:59:01.000000000 +1100
+diff --git numeric.c numeric.c
+index 6c54bf9..73d9e80 100644
+--- numeric.c
++++ numeric.c
 @@ -12,6 +12,7 @@
  
  #include "ruby.h"
@@ -622,9 +803,10 @@ diff -r -u ruby-1.0-971225/numeric.c ruby-1.0-971225-patched/numeric.c
  #if defined (HAVE_STRING_H)
  #  include <string.h>
  #else
-diff -r -u ruby-1.0-971225/object.c ruby-1.0-971225-patched/object.c
---- ruby-1.0-971225/object.c	1997-09-16 17:25:03.000000000 +1000
-+++ ruby-1.0-971225-patched/object.c	2012-12-20 22:59:01.000000000 +1100
+diff --git object.c object.c
+index a0e1eb3..1c0a461 100644
+--- object.c
++++ object.c
 @@ -13,6 +13,7 @@
  #include "ruby.h"
  #include "st.h"
@@ -633,7 +815,7 @@ diff -r -u ruby-1.0-971225/object.c ruby-1.0-971225-patched/object.c
  
  VALUE mKernel;
  VALUE cObject;
-@@ -175,7 +176,7 @@
+@@ -175,7 +176,7 @@ obj_inspect(obj)
  
  	return str;
      }
@@ -642,9 +824,10 @@ diff -r -u ruby-1.0-971225/object.c ruby-1.0-971225-patched/object.c
  }
  
  VALUE
-diff -r -u ruby-1.0-971225/pack.c ruby-1.0-971225-patched/pack.c
---- ruby-1.0-971225/pack.c	1997-08-19 17:23:58.000000000 +1000
-+++ ruby-1.0-971225-patched/pack.c	2012-12-20 22:59:01.000000000 +1100
+diff --git pack.c pack.c
+index ccb5143..5278566 100644
+--- pack.c
++++ pack.c
 @@ -11,6 +11,7 @@
  ************************************************/
  
@@ -653,9 +836,10 @@ diff -r -u ruby-1.0-971225/pack.c ruby-1.0-971225-patched/pack.c
  #include <ctype.h>
  #include <sys/types.h>
  
-diff -r -u ruby-1.0-971225/parse.y ruby-1.0-971225-patched/parse.y
---- ruby-1.0-971225/parse.y	1997-12-09 19:53:42.000000000 +1100
-+++ ruby-1.0-971225-patched/parse.y	2012-12-20 22:59:01.000000000 +1100
+diff --git parse.y parse.y
+index 6b0a124..ff77cf9 100644
+--- parse.y
++++ parse.y
 @@ -18,6 +18,7 @@
  #include "node.h"
  #include "st.h"
@@ -664,7 +848,7 @@ diff -r -u ruby-1.0-971225/parse.y ruby-1.0-971225-patched/parse.y
  
  /* hack for bison */
  #ifdef const
-@@ -1364,7 +1365,6 @@
+@@ -1364,7 +1365,6 @@ VALUE newregexp();
  VALUE newstring();
  VALUE newfloat();
  VALUE newinteger();
@@ -672,7 +856,7 @@ diff -r -u ruby-1.0-971225/parse.y ruby-1.0-971225-patched/parse.y
  
  static NODE *str_extend();
  
-@@ -3498,8 +3498,6 @@
+@@ -3498,8 +3498,6 @@ st_table *rb_symbol_tbl;
  void
  Init_sym()
  {
@@ -681,9 +865,10 @@ diff -r -u ruby-1.0-971225/parse.y ruby-1.0-971225-patched/parse.y
      sym_tbl = st_init_strtable();
      rb_global_variable(&cur_cref);
  }
-diff -r -u ruby-1.0-971225/process.c ruby-1.0-971225-patched/process.c
---- ruby-1.0-971225/process.c	1997-09-24 11:19:14.000000000 +1000
-+++ ruby-1.0-971225-patched/process.c	2012-12-20 22:59:01.000000000 +1100
+diff --git process.c process.c
+index 4d1d96e..fac2d70 100644
+--- process.c
++++ process.c
 @@ -11,6 +11,7 @@
  ************************************************/
  
@@ -692,9 +877,10 @@ diff -r -u ruby-1.0-971225/process.c ruby-1.0-971225-patched/process.c
  #include "sig.h"
  #include <stdio.h>
  #include <errno.h>
-diff -r -u ruby-1.0-971225/re.c ruby-1.0-971225-patched/re.c
---- ruby-1.0-971225/re.c	1997-08-27 12:10:15.000000000 +1000
-+++ ruby-1.0-971225-patched/re.c	2012-12-20 22:59:01.000000000 +1100
+diff --git re.c re.c
+index 19b274b..5a0fe88 100644
+--- re.c
++++ re.c
 @@ -12,6 +12,7 @@
  
  #include "ruby.h"
@@ -703,9 +889,10 @@ diff -r -u ruby-1.0-971225/re.c ruby-1.0-971225-patched/re.c
  
  static VALUE eRegxpError;
  
-diff -r -u ruby-1.0-971225/regex.c ruby-1.0-971225-patched/regex.c
---- ruby-1.0-971225/regex.c	1997-11-18 15:49:01.000000000 +1100
-+++ ruby-1.0-971225-patched/regex.c	2012-12-20 22:59:01.000000000 +1100
+diff --git regex.c regex.c
+index 686695c..eb45bbb 100644
+--- regex.c
++++ regex.c
 @@ -27,6 +27,8 @@
  
  /* We write fatal error messages on standard error.  */
@@ -715,10 +902,11 @@ diff -r -u ruby-1.0-971225/regex.c ruby-1.0-971225-patched/regex.c
  
  /* isalpha(3) etc. are used for the character classes.  */
  #include <ctype.h>
-diff -r -u ruby-1.0-971225/ruby.c ruby-1.0-971225-patched/ruby.c
---- ruby-1.0-971225/ruby.c	1997-10-21 14:23:34.000000000 +1000
-+++ ruby-1.0-971225-patched/ruby.c	2012-12-20 22:59:01.000000000 +1100
-@@ -36,7 +36,6 @@
+diff --git ruby.c ruby.c
+index 1bc89ad..8b2b924 100644
+--- ruby.c
++++ ruby.c
+@@ -36,7 +36,6 @@ int tainting = FALSE;
  static int sflag = FALSE;
  
  char *inplace = FALSE;
@@ -726,10 +914,11 @@ diff -r -u ruby-1.0-971225/ruby.c ruby-1.0-971225-patched/ruby.c
  
  extern char *sourcefile;
  extern int yydebug;
-diff -r -u ruby-1.0-971225/ruby.h ruby-1.0-971225-patched/ruby.h
---- ruby-1.0-971225/ruby.h	1997-09-03 18:32:14.000000000 +1000
-+++ ruby-1.0-971225-patched/ruby.h	2012-12-20 22:59:01.000000000 +1100
-@@ -324,8 +324,8 @@
+diff --git ruby.h ruby.h
+index 9ac9d32..aacf5ac 100644
+--- ruby.h
++++ ruby.h
+@@ -324,8 +324,8 @@ char *rb_class2name _((VALUE));
  int rb_method_boundp _((VALUE,ID,int));
  
  VALUE rb_eval_string _((char*));
@@ -740,21 +929,24 @@ diff -r -u ruby-1.0-971225/ruby.h ruby-1.0-971225-patched/ruby.h
  
  VALUE rb_iv_get();
  VALUE rb_iv_set();
-@@ -344,10 +344,6 @@
+@@ -342,24 +342,6 @@ extern int verbose, debug;
+ int rb_safe_level();
+ void rb_set_safe_level _((int));
  
- #ifdef __GNUC__
- typedef void voidfn ();
+-#ifdef __GNUC__
+-typedef void voidfn ();
 -volatile voidfn Raise;
 -volatile voidfn Fail;
 -volatile voidfn Fatal;
 -volatile voidfn Bug;
- volatile voidfn WrongType;
- volatile voidfn rb_sys_fail;
- volatile voidfn rb_break;
-@@ -356,10 +352,6 @@
- volatile voidfn rb_raise;
- volatile voidfn rb_notimplement;
- #else
+-volatile voidfn WrongType;
+-volatile voidfn rb_sys_fail;
+-volatile voidfn rb_break;
+-volatile voidfn rb_exit;
+-volatile voidfn rb_fatal;
+-volatile voidfn rb_raise;
+-volatile voidfn rb_notimplement;
+-#else
 -void Raise();
 -void Fail();
 -void Fatal();
@@ -762,9 +954,11 @@ diff -r -u ruby-1.0-971225/ruby.h ruby-1.0-971225-patched/ruby.h
  void WrongType();
  void rb_sys_fail();
  void rb_break();
-@@ -369,8 +361,13 @@
+@@ -367,10 +349,14 @@ void rb_exit();
+ void rb_fatal();
+ void rb_raise();
  void rb_notimplement();
- #endif
+-#endif
  
 -void Error();
 -void Warning();
@@ -778,9 +972,10 @@ diff -r -u ruby-1.0-971225/ruby.h ruby-1.0-971225-patched/ruby.h
  
  #if defined(EXTLIB) && defined(USE_DLN_A_OUT)
  /* hook for external modules */
-diff -r -u ruby-1.0-971225/sprintf.c ruby-1.0-971225-patched/sprintf.c
---- ruby-1.0-971225/sprintf.c	1997-08-26 10:54:41.000000000 +1000
-+++ ruby-1.0-971225-patched/sprintf.c	2012-12-20 22:59:01.000000000 +1100
+diff --git sprintf.c sprintf.c
+index 015d3d4..710dba0 100644
+--- sprintf.c
++++ sprintf.c
 @@ -12,6 +12,8 @@
  
  #include "ruby.h"
@@ -790,10 +985,11 @@ diff -r -u ruby-1.0-971225/sprintf.c ruby-1.0-971225-patched/sprintf.c
  
  static void fmt_setup();
  
-diff -r -u ruby-1.0-971225/st.c ruby-1.0-971225-patched/st.c
---- ruby-1.0-971225/st.c	1997-12-23 01:19:42.000000000 +1100
-+++ ruby-1.0-971225-patched/st.c	2012-12-20 22:59:01.000000000 +1100
-@@ -4,6 +4,7 @@
+diff --git st.c st.c
+index 6b25bc8..bb39c07 100644
+--- st.c
++++ st.c
+@@ -4,6 +4,7 @@ static	char	sccsid[] = "@(#) st.c 5.1 89/12/14 Crucible";
  
  #include "config.h"
  #include <stdio.h>
@@ -801,9 +997,10 @@ diff -r -u ruby-1.0-971225/st.c ruby-1.0-971225-patched/st.c
  #include "st.h"
  
  #define ST_DEFAULT_MAX_DENSITY 5
-diff -r -u ruby-1.0-971225/string.c ruby-1.0-971225-patched/string.c
---- ruby-1.0-971225/string.c	1997-12-09 12:18:11.000000000 +1100
-+++ ruby-1.0-971225-patched/string.c	2012-12-20 22:59:01.000000000 +1100
+diff --git string.c string.c
+index b9025cc..3f144ef 100644
+--- string.c
++++ string.c
 @@ -17,6 +17,7 @@
  #define END(no) regs->end[no]
  
@@ -812,9 +1009,10 @@ diff -r -u ruby-1.0-971225/string.c ruby-1.0-971225-patched/string.c
  #include <ctype.h>
  
  VALUE cString;
-diff -r -u ruby-1.0-971225/struct.c ruby-1.0-971225-patched/struct.c
---- ruby-1.0-971225/struct.c	1997-10-03 11:50:40.000000000 +1000
-+++ ruby-1.0-971225-patched/struct.c	2012-12-20 22:59:01.000000000 +1100
+diff --git struct.c struct.c
+index d9e68a2..33d196f 100644
+--- struct.c
++++ struct.c
 @@ -9,6 +9,8 @@
  ************************************************/
  
@@ -824,7 +1022,7 @@ diff -r -u ruby-1.0-971225/struct.c ruby-1.0-971225-patched/struct.c
  
  ID rb_frame_last_func();
  VALUE cStruct;
-@@ -155,12 +157,10 @@
+@@ -155,12 +157,10 @@ make_struct(name, member)
      return nstr;
  }
  
@@ -839,7 +1037,7 @@ diff -r -u ruby-1.0-971225/struct.c ruby-1.0-971225-patched/struct.c
  {
      va_list ar;
      VALUE nm, ary;
-@@ -169,7 +169,7 @@
+@@ -169,7 +169,7 @@ struct_define(name, va_alist)
      nm = str_new2(name);
      ary = ary_new();
  
@@ -848,7 +1046,7 @@ diff -r -u ruby-1.0-971225/struct.c ruby-1.0-971225-patched/struct.c
      while (mem = va_arg(ar, char*)) {
  	ID slot = rb_intern(mem);
  	ary_push(ary, INT2FIX(slot));
-@@ -225,9 +225,7 @@
+@@ -225,9 +225,7 @@ struct_alloc(class, values)
  }
  
  VALUE
@@ -859,7 +1057,7 @@ diff -r -u ruby-1.0-971225/struct.c ruby-1.0-971225-patched/struct.c
  {
      VALUE val, mem;
      int size;
-@@ -236,7 +234,7 @@
+@@ -236,7 +234,7 @@ struct_new(class, va_alist)
      val = rb_iv_get(class, "__size__");
      size = FIX2INT(val); 
      mem = ary_new();
@@ -868,9 +1066,10 @@ diff -r -u ruby-1.0-971225/struct.c ruby-1.0-971225-patched/struct.c
      while (size--) {
  	val = va_arg(args, VALUE);
  	ary_push(mem, val);
-diff -r -u ruby-1.0-971225/variable.c ruby-1.0-971225-patched/variable.c
---- ruby-1.0-971225/variable.c	1997-09-08 07:29:02.000000000 +1000
-+++ ruby-1.0-971225-patched/variable.c	2012-12-20 22:59:01.000000000 +1100
+diff --git variable.c variable.c
+index b0d6736..0e98f6c 100644
+--- variable.c
++++ variable.c
 @@ -12,6 +12,7 @@
  #include "env.h"
  #include "node.h"
